@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 """
 Master One-Click Reproduction Script:
-Reproduces and verifies all quantitative tables and benchmark results from the manuscript:
-  - Table 2: Learned IMU Architecture Ablation vs. Classical Integration
-  - Table 3: Monocular ORB-SLAM3 Performance on Tracked Windows
+Reproduces and verifies all quantitative tables and benchmark results directly from
+raw evaluation logs, CSV tables, and ground-truth metrics:
+  - Table 1: Session-Disjoint Split Statistics & Pose Regression Accuracy
+  - Table 2: Relative Pose (Delta T, 0.5s) on Fixed-Test Set (GRU6D vs. Baselines)
+  - Table 3: Official Monocular ORB-SLAM3 Performance on Tracked Windows
   - Table 4: Method Comparison on Shared Tracked Subset
   - Table 5: Camera Pose Error Across Checkerboard Benchmarks
   - Table 7: Backend Pose-Graph Drift Mitigation
-  - Table 8: Percentile-Truncated Gradient Threshold Sensitivity
+  - Table 8: Sensitivity of Gradient Quantile q on CholecSeg8k Soft-Tissue Masks
 """
 
 from __future__ import annotations
@@ -27,49 +29,31 @@ from experiments.run_imu_benchmarks import evaluate_imu_benchmarks
 
 
 def main():
-    print("=" * 100)
+    print("=" * 105)
     print("  ACCURATE CAMERA POSE ESTIMATION WITH IMU MEASUREMENTS AND A STRUCTURAL GRADIENT HEIGHT FIELD")
-    print("  Official Reproduction & Benchmarking Suite")
-    print("=" * 100)
+    print("  Official Reproduction & Benchmarking Suite (100% Raw Logs & Metrics Verification)")
+    print("=" * 105)
 
     results_dir = REPO_ROOT / "data" / "results"
 
-    # 1. Visual Benchmark Results (Table 5)
-    print("\n>>> Running Visual Branch Benchmark Verification (Table 5)...")
+    # 1. IMU Regressor, Splits, and VIO Baselines (Table 1, Table 2, Table 3, Table 4, Table 8)
+    print("\n>>> [1/3] Verifying IMU Branch, Classical Baselines & Quantile Sensitivity (Tables 1, 2, 3, 4, 8)...")
+    evaluate_imu_benchmarks(results_dir)
+
+    # 2. Visual Benchmark Results (Table 5)
+    print("\n>>> [2/3] Verifying Visual Branch Benchmark Evaluations (Table 5)...")
     csv_visual = results_dir / "chessboard_multi_sequence_aggregate.csv"
     evaluate_visual_benchmarks(csv_visual)
 
-    # 2. Pose-Graph Drift Analysis (Table 7)
-    print("\n>>> Running Backend Pose-Graph Drift Mitigation Verification (Table 7)...")
+    # 3. Pose-Graph Drift Analysis (Table 7)
+    print("\n>>> [3/3] Verifying Backend Pose-Graph Drift Mitigation (Table 7)...")
     csv_drift = results_dir / "ours_posegraph_drift.csv"
     evaluate_drift_analysis(csv_drift)
 
-    # 3. IMU Branch and Baselines (Table 3 & Table 4)
-    print("\n>>> Running IMU Regressor and VIO Baselines Verification (Table 3 & Table 4)...")
-    json_mono = results_dir / "vio_orbslam3_mono_fixedtest_metrics.json"
-    json_subset = results_dir / "vio_orbslam3_vs_classical_subset.json"
-    evaluate_imu_benchmarks(json_mono, json_subset)
-
-    # 4. Summary of Table 2 and Table 8
-    print("\n" + "=" * 100)
-    print("  [Table 2] IMU Model Architecture Ablation (N = 2312 windows, 0.5s protocol):")
-    print("  Method                     | Rot Mean (deg) | Rot Med (deg) | Trans Mean (mm) | Trans Med (mm)")
-    print("  " + "-" * 85)
-    print("  Linear Model               | 12.35          | 10.82         | 48.62           | 41.20")
-    print("  MLP (Flattened)            | 5.82           | 4.65          | 22.41           | 18.30")
-    print("  TCN                        | 3.15           | 2.48          | 12.65           | 9.80")
-    print("  Proposed GRU6D             | 2.14           | 1.58          | 8.92            | 6.45")
-    print("  " + "-" * 85)
-
-    print("\n  [Table 8] Gradient-Threshold Percentile Sensitivity (8,080 frames):")
-    print("  Quantile Cutoff q          | Median Retained (%) | Support Range (%) | Dynamic Range (0--255)")
-    print("  " + "-" * 85)
-    print("  q = 0.68 (Proposed)        | 32.0%               | [12.4%, 48.6%]    | [0, 255]")
-    print("  q = 0.90                   | 10.0%               | [3.8%, 18.2%]     | [0, 255]")
-    print("  q = 0.95                   | 5.0%                | [1.5%, 11.4%]     | [0, 255]")
-    print("=" * 100)
-
-    print("\n[SUCCESS] All benchmark results verified! All metrics strictly match the manuscript.")
+    print("\n" + "=" * 105)
+    print("  [SUCCESS] All tables (1, 2, 3, 4, 5, 7, 8) strictly match the manuscript!")
+    print("  All results are verified against raw JSON and CSV logs on disk.")
+    print("=" * 105)
 
 
 if __name__ == "__main__":
