@@ -1,0 +1,25 @@
+# Configuration for Learned IMU-to-Camera Relative-Pose Regressor (IMUCameraPoseGRU6D)
+model:
+  type: "IMUCameraPoseGRU6D"
+  input_dim: 21                     # 6-axis gyro/accel + orientation features
+  hidden_dim: 256
+  num_layers: 2
+  dropout: 0.1
+  bidirectional: false
+
+training:
+  sequence_length: 60               # 60 frames = 0.5s window at 120Hz
+  window_seconds: 0.5
+  batch_size: 64
+  learning_rate: 1.0e-3
+  weight_decay: 1.0e-4
+  epochs: 1000
+  optimizer: "AdamW"
+  lr_scheduler: "ReduceLROnPlateau"
+  early_stopping_patience: 50
+
+loss:
+  type: "AdaptivePoseGeodesicLoss"  # Kendall uncertainty weighting
+  init_s_r: 0.0
+  init_s_t: 0.0
+  huber_delta: 1.0

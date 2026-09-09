@@ -1,0 +1,32 @@
+# Configuration for Visual Structural Gradient Height Field Pipeline
+visual_pipeline:
+  gradient:
+    percentile_cutoff: 0.68         # q = 0.68 (68% quantile cut)
+    blur_kernel_size: 3
+    z_scale_max: 144.0              # Max pseudo-height elevation
+    affine_stabilize: true          # Mitigate illumination scale drift
+    ref_distribution:
+      mu: 24.0
+      sigma: 12.0
+
+  registration:
+    method: "point_to_plane"        # Point-to-Plane ICP
+    multiscale_voxels: [4.0, 2.0, 1.0]
+    multiscale_max_iter: [50, 30, 20]
+    multiscale_max_corr: [15.0, 8.0, 4.0]
+
+  quality_gating:
+    enable: true
+    fitness_thresholds:
+      high: 0.85
+      low: 0.50
+    rmse_max: 5.0
+    corner_reprojection:
+      tau_px: 3.0                   # Inlier threshold in pixels
+      tau_p90: 4.0                  # 90th percentile threshold
+      tau_ok: 0.80                  # Inlier fraction threshold
+
+  pose_graph:
+    enable: true
+    max_correspondence_distance: 10.0
+    preference_loop_weight: 0.1
