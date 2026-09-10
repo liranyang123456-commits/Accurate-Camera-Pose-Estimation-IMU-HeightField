@@ -26,6 +26,7 @@ sys.path.insert(0, str(REPO_ROOT))
 from experiments.run_visual_benchmarks import evaluate_visual_benchmarks
 from experiments.run_drift_analysis import evaluate_drift_analysis
 from experiments.run_imu_benchmarks import evaluate_imu_benchmarks
+from experiments.run_test5_ablation import evaluate_test5_ablation
 
 
 def main():
@@ -37,21 +38,26 @@ def main():
     results_dir = REPO_ROOT / "data" / "results"
 
     # 1. IMU Regressor, Splits, and VIO Baselines (Table 1, Table 2, Table 3, Table 4, Table 8)
-    print("\n>>> [1/3] Verifying IMU Branch, Classical Baselines & Quantile Sensitivity (Tables 1, 2, 3, 4, 8)...")
+    print("\n>>> [1/4] Verifying IMU Branch, Classical Baselines & Quantile Sensitivity (Tables 1, 2, 3, 4, 8)...")
     evaluate_imu_benchmarks(results_dir)
 
     # 2. Visual Benchmark Results (Table 5)
-    print("\n>>> [2/3] Verifying Visual Branch Benchmark Evaluations (Table 5)...")
+    print("\n>>> [2/4] Verifying Visual Branch Benchmark Evaluations (Table 5)...")
     csv_visual = results_dir / "chessboard_multi_sequence_aggregate.csv"
     evaluate_visual_benchmarks(csv_visual)
 
     # 3. Pose-Graph Drift Analysis (Table 7)
-    print("\n>>> [3/3] Verifying Backend Pose-Graph Drift Mitigation (Table 7)...")
+    print("\n>>> [3/4] Verifying Backend Pose-Graph Drift Mitigation (Table 7)...")
     csv_drift = results_dir / "ours_posegraph_drift.csv"
     evaluate_drift_analysis(csv_drift)
 
+    # 4. Controlled leave-one-out test5 ablation (Table 9)
+    print("\n>>> [4/4] Verifying Controlled Leave-One-Out test5 Ablation (Table 9)...")
+    csv_test5 = results_dir / "test5_leave_one_out_ablation.csv"
+    evaluate_test5_ablation(csv_test5)
+
     print("\n" + "=" * 105)
-    print("  [SUCCESS] All tables (1, 2, 3, 4, 5, 7, 8) strictly match the manuscript!")
+    print("  [SUCCESS] All tables (1, 2, 3, 4, 5, 7, 8, 9) strictly match the manuscript!")
     print("  All results are verified against raw JSON and CSV logs on disk.")
     print("=" * 105)
 

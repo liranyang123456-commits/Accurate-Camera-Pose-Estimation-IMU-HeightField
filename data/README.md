@@ -13,6 +13,8 @@ This directory stores the official numerical evaluation outputs and data provena
   Performance metrics of official monocular ORB-SLAM3 evaluated on successfully tracked test windows ($N=419$). Generates **Table 3**.
 - `results/vio_orbslam3_vs_classical_subset.json`:
   Comparative benchmark metrics for ORB-SLAM3, OpenCV VO, and complementary filter (ORB+IMU) on the identical tracked subset ($N=419$). Generates **Table 4**.
+- `results/test5_leave_one_out_ablation.csv`:
+  Verified four-variant controlled leave-one-out diagnostics on test5 (full pipeline; without pose-graph; without quality gate/recovery; without multi-scale ICP). Generates **Table 9**. Fitness/RMSE are pairwise pseudo-3D registration diagnostics, not SE(3) physical pose error.
 
 ## Reproducibility Protocol
 

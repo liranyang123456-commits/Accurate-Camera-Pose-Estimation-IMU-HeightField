@@ -89,7 +89,7 @@ Accurate-Camera-Pose-Estimation-IMU-HeightField/
 │   ├── run_visual_benchmarks.py   # Evaluates Table 5 (Checkerboard benchmarks)
 │   ├── run_drift_analysis.py      # Evaluates Table 7 (Pose-graph drift reduction)
 │   ├── run_imu_benchmarks.py      # Evaluates Table 3 & 4 (ORB-SLAM3 & baselines)
-│   └── run_test5_ablation.py      # 4-variant leave-one-out ablation runner
+│   └── run_test5_ablation.py      # Evaluates Table 9 from verified CSV; --run re-executes the four variants
 │
 └── data/
     ├── README.md                  # Dataset descriptions and provenance
@@ -97,7 +97,8 @@ Accurate-Camera-Pose-Estimation-IMU-HeightField/
         ├── chessboard_multi_sequence_aggregate.csv   # Table 5 data
         ├── ours_posegraph_drift.csv                  # Table 7 data
         ├── vio_orbslam3_mono_fixedtest_metrics.json  # Table 3/4 data
-        └── vio_orbslam3_vs_classical_subset.json     # Table 4 tracked subset data
+        ├── vio_orbslam3_vs_classical_subset.json     # Table 4 tracked subset data
+        └── test5_leave_one_out_ablation.csv          # Table 9 data
 ```
 
 ---
@@ -157,10 +158,18 @@ Evaluates official ORB-SLAM3 monocular on successfully tracked test windows ($N=
 python experiments/run_imu_benchmarks.py
 ```
 
-#### 4. Running Visual Component Leave-One-Out Ablation:
-Executes the four-variant ablation study (Full pipeline, w/o pose-graph, w/o quality gate, w/o multi-scale ICP):
+#### 4. Table 9: Controlled Visual Component Leave-One-Out Ablation
+Loads the verified four-variant test5 ablation metrics (full pipeline; without pose-graph; without quality gate/recovery; without multi-scale ICP):
 ```bash
 python experiments/run_test5_ablation.py
+```
+*Expected Output:*
+- Removing multi-scale ICP drops mean pairwise fitness from $0.5869$ to $0.4504$ and increases low-support frames (fitness $<0.50$) from $79$ to $332$.
+- Removing pose-graph optimization or quality gating/recovery leaves pairwise front-end diagnostics within run-to-run variation; their roles are quantified by global drift (Table 7) and the S/M/J gating distribution.
+
+To re-execute the four variants on the original capture workstation (advanced; requires the raw `Data_IMU_Camera_Pose_5` folders and the visual pipeline script), use:
+```bash
+python experiments/run_test5_ablation.py --run
 ```
 
 ---
