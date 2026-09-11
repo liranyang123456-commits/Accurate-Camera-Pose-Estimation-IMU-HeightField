@@ -1,7 +1,7 @@
 protocol,method,n_sequences,ate_rmse_mean,ate_rmse_std,ate_median_mean,rel_rot_err_mean_deg,rel_rot_err_std_deg,rel_rot_err_median_deg,rot_success_1deg_pooled,rot_success_2deg_pooled,rel_tdir_err_mean_deg,rel_tdir_err_std_deg
 seg100,Ours,5,104.158,43.432,92.447,1.622,0.888,1.062,0.519,0.729,84.899,3.922
 seg100,DetectorFreeSfM,5,12.305,11.370,6.887,0.908,0.934,0.402,0.893,0.964,22.293,11.304
-seg100,Reloc3r,5,43.498,19.917,37.839,0.821,0.257,0.739,0.612,0.925,27.820,11.299
+seg100,Reloc3r,5,46.260,22.856,39.324,1.249,0.971,1.128,0.511,0.814,42.873,31.166
 seg100,SIFT,5,54.805,40.639,41.219,0.966,0.409,0.512,0.768,0.899,45.270,23.471
 seg100,AKAZE,5,50.570,15.565,42.977,1.240,0.883,0.615,0.705,0.846,47.775,22.598
 seg100,ORB,5,47.960,13.614,37.073,1.087,0.276,0.574,0.743,0.873,46.962,19.560

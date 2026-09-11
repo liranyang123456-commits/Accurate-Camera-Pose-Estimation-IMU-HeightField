@@ -142,7 +142,7 @@ python experiments/run_visual_benchmarks.py
 *Expected Output:*
 - Proposed Visual Pipeline: Mean Rotation Error $1.622^\circ \pm 0.888^\circ$ (Median $1.062^\circ$, $72.9\%$ within $2^\circ$).
 - DetectorFreeSfM: $0.908^\circ \pm 0.934^\circ$ ($96.4\%$ within $2^\circ$, ATE RMSE $12.30\,\mathrm{mm}$).
-- Reloc3r: $0.821^\circ \pm 0.257^\circ$ ($92.5\%$ within $2^\circ$, ATE RMSE $43.50\,\mathrm{mm}$).
+- Reloc3r: $1.249^\circ \pm 0.971^\circ$ ($81.4\%$ within $2^\circ$, ATE RMSE $46.26\,\mathrm{mm}$).
 
 #### 2. Table 7: Backend Pose-Graph Drift Mitigation
 Evaluates open-loop tracking drift vs. backend pose-graph optimization across 5 test sequences:
