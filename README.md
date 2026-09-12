@@ -1,7 +1,7 @@
-# Accurate Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field
+# Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field
 
 Official PyTorch and Python implementation and reproducible benchmarking suite for the paper:  
-**"Accurate Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field"** (Submitted to *Pattern Recognition*, PR-D-26-09325).
+**"Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field"** (Submitted to *Pattern Recognition*, PR-D-26-09325).
 
 ---
 
@@ -198,6 +198,7 @@ python experiments/print_r1_addenda.py
 | `experiments/gru6d_cross_capture/cross_capture_metrics_12x9.json` | Frozen GRU6D on new $12\times9$ PnP only (`N=25`) |
 | `experiments/miti_seq01/miti_metrics.json` | MITI seq01 stereo-inertial (no IMU init) and stereo-only (**not VIO**) |
 | `experiments/gru6d_weak_b/.../weakB_metrics.json` | Board-then-keyboard IMU windows |
+| `experiments/c3vd_heightfield/c3vd_heightfield_metrics.json` | C3VD phantom visual tracking (no IMU, **not GRU6D**) |
 | `experiments/r13_coverage/coverage_metrics.json` | Visual vs IMU-window **coverage** on `vio_seq_20260911_010902` |
 
 Do **not** use `cross_capture_metrics.json` (unfiltered): mixed checkerboard identities contaminate the mean. Use the `12x9` JSON only.

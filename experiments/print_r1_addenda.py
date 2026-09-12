@@ -37,6 +37,16 @@ def main() -> None:
     weak = _load("gru6d_weak_b/vio_seq_20260912_104835/weakB_metrics.json")
     print("Weak-B keys", sorted(weak.keys())[:12])
 
+    c3 = _load("c3vd_heightfield/c3vd_heightfield_metrics.json")
+    a = c3["protocols"]["consecutive_100"]
+    b = c3["protocols"]["stride8_full"]
+    print(
+        "R1-5 C3VD visual (not GRU6D)",
+        "consec100 rot", round(a["rpe_rot_deg_mean"], 3),
+        "stride8 rot", round(b["rpe_rot_deg_mean"], 3),
+        "sim3", round(b["ate_sim3_rmse"], 2),
+    )
+
 
 if __name__ == "__main__":
     main()
