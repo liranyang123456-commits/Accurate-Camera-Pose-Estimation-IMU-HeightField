@@ -56,9 +56,13 @@ def main():
     csv_test5 = results_dir / "test5_leave_one_out_ablation.csv"
     evaluate_test5_ablation(csv_test5)
 
+    from experiments.print_r1_addenda import main as print_r1_addenda
+    print("\n>>> [R1] Printing revision addenda JSON (Hard / cross-capture / MITI / Weak-B / coverage)...")
+    print_r1_addenda()
+
     print("\n" + "=" * 105)
-    print("  [SUCCESS] All tables (1, 2, 3, 4, 5, 7, 8, 9) strictly match the manuscript!")
-    print("  All results are verified against raw JSON and CSV logs on disk.")
+    print("  [SUCCESS] All tables (1, 2, 3, 4, 5, 7, 8, 9) match the manuscript logs.")
+    print("  R1 addenda JSON printed above. Stereo-only MITI is not VIO.")
     print("=" * 105)
 
 

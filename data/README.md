@@ -14,8 +14,13 @@ This directory stores the official numerical evaluation outputs and data provena
 - `results/vio_orbslam3_vs_classical_subset.json`:
   Comparative benchmark metrics for ORB-SLAM3, OpenCV VO, and complementary filter (ORB+IMU) on the identical tracked subset ($N=419$). Generates **Table 4**.
 - `results/test5_leave_one_out_ablation.csv`:
-  Verified four-variant controlled leave-one-out diagnostics on test5 (full pipeline; without pose-graph; without quality gate/recovery; without multi-scale ICP). Generates **Table 9**. Fitness/RMSE are pairwise pseudo-3D registration diagnostics, not SE(3) physical pose error.
+  Verified four-variant controlled leave-one-out diagnostics on test5. Generates **Table 9**.
+- `results/gru6d_fixedtest_metrics.json` and `inertial_baselines_fixedtest_metrics.json`:
+  Generate **Table 2**.
+- `results/cholecseg8k_contour_scores.csv` and `cholecseg8k_fill_scores.csv`:
+  Generate **Table 8**.
+- R1 addenda JSON (Hard / 12x9 cross-capture / MITI / Weak-B / R1-3 coverage) live under `experiments/` and are printed by `python experiments/print_r1_addenda.py`.
 
 ## Reproducibility Protocol
 
-All numbers in `data/results/` are directly obtained from experimental execution logs and correspond strictly to the reported paper tables without manual adjustment or smoothing. Run `python reproduce_all.py` from the repository root to verify all tables.
+All numbers in `data/results/` are taken from experimental execution logs and correspond to the reported paper tables without manual adjustment. Run `python reproduce_all.py` from the repository root to verify Tables 1--5, 7, 8, and 9.

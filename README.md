@@ -106,8 +106,8 @@ Accurate-Camera-Pose-Estimation-IMU-HeightField/
 ## ⚙️ Environment Setup
 
 ### 1. Prerequisites
-- Python $\ge$ 3.8
-- CUDA $\ge$ 11.3 (optional, for accelerated PyTorch training)
+- Python >= 3.8
+- CUDA >= 11.3 (optional, for accelerated PyTorch training)
 
 ### 2. Installation
 ```bash
@@ -122,6 +122,9 @@ conda activate pose_heightfield
 pip install -r requirements.txt
 ```
 
+### 3. scikit-learn unpickle warning (numbers unchanged)
+GRU6D checkpoints pickle a `StandardScaler` trained with **scikit-learn 1.6.1**. Loading the same file on **1.7.2** can emit `InconsistentVersionWarning`. This is an unpickle version mismatch only: **reported Table 2 / cross-capture numbers are unchanged**. Prefer 1.6.1 if you want a silent load; do not re-fit the scaler.
+
 ---
 
 ## 🚀 One-Click Reproduction Guide (一键复现指南)
@@ -134,7 +137,15 @@ python reproduce_all.py
 
 ### Reproducing Individual Tables:
 
-#### 1. Table 5: Camera Pose Error Across Checkerboard Benchmarks
+Manuscript Tables **1, 2, 3, 4, and 8** are printed from `data/results/*.json` and `*.csv` by `experiments/run_imu_benchmarks.py` (also invoked by `reproduce_all.py`).
+
+#### Table 2: GRU6D vs inertial / visual baselines (0.5 s fixed test)
+```bash
+python experiments/run_imu_benchmarks.py
+```
+*Expected (GRU6D row):* rotation mean **2.135°**, translation mean **9.745 mm**, $N=2312$, Hit@rot$\le 5^\circ=0.960$.
+
+#### Table 5: Camera Pose Error Across Checkerboard Benchmarks
 Evaluates the proposed visual height-field pipeline against DetectorFreeSfM, Reloc3r, SIFT, AKAZE, and ORB on the standardized 100-frame protocol against OpenCV `solvePnP` ground truth:
 ```bash
 python experiments/run_visual_benchmarks.py
@@ -144,7 +155,11 @@ python experiments/run_visual_benchmarks.py
 - DetectorFreeSfM: $0.908^\circ \pm 0.934^\circ$ ($96.4\%$ within $2^\circ$, ATE RMSE $12.30\,\mathrm{mm}$).
 - Reloc3r: $1.249^\circ \pm 0.971^\circ$ ($81.4\%$ within $2^\circ$, ATE RMSE $46.26\,\mathrm{mm}$).
 
-#### 2. Table 7: Backend Pose-Graph Drift Mitigation
+#### Table 8: CholecSeg8k gradient-quantile sensitivity
+Same command as Table 2 (`run_imu_benchmarks.py`). Source CSVs: `data/results/cholecseg8k_contour_scores.csv` and `cholecseg8k_fill_scores.csv`.
+*Expected ($q=0.68$ filled):* Dice **0.769**, IoU **0.641**, B-F1 **0.269**.
+
+#### Table 7: Backend Pose-Graph Drift Mitigation
 Evaluates open-loop tracking drift vs. backend pose-graph optimization across 5 test sequences:
 ```bash
 python experiments/run_drift_analysis.py
@@ -152,13 +167,13 @@ python experiments/run_drift_analysis.py
 *Expected Output:*
 - Open-Loop Pooled ATE: $104.16\,\mathrm{mm}$ $\rightarrow$ Pose-Graph Refined ATE: $98.38\,\mathrm{mm}$ (average reduction of $-5.5\%$).
 
-#### 3. Table 3 & Table 4: Monocular ORB-SLAM3 and Baselines
+#### Table 3 and Table 4: Monocular ORB-SLAM3 and baselines
 Evaluates official ORB-SLAM3 monocular on successfully tracked test windows ($N=419$) and compares against OpenCV VO and complementary filtering on the identical subset:
 ```bash
 python experiments/run_imu_benchmarks.py
 ```
 
-#### 4. Table 9: Controlled Visual Component Leave-One-Out Ablation
+#### Table 9: Controlled Visual Component Leave-One-Out Ablation
 Loads the verified four-variant test5 ablation metrics (full pipeline; without pose-graph; without quality gate/recovery; without multi-scale ICP):
 ```bash
 python experiments/run_test5_ablation.py
@@ -171,6 +186,21 @@ To re-execute the four variants on the original capture workstation (advanced; r
 ```bash
 python experiments/run_test5_ablation.py --run
 ```
+
+### R1 addenda (response letter; not fused ATE)
+JSON logs and helper scripts from the revision are under `experiments/`. Print the letter numbers with:
+```bash
+python experiments/print_r1_addenda.py
+```
+| File | What it is |
+|---|---|
+| `experiments/cholecseg8k_hard/stratified_metrics.csv` | CholecSeg8k-Hard split of Table 8 |
+| `experiments/gru6d_cross_capture/cross_capture_metrics_12x9.json` | Frozen GRU6D on new $12\times9$ PnP only (`N=25`) |
+| `experiments/miti_seq01/miti_metrics.json` | MITI seq01 stereo-inertial (no IMU init) and stereo-only (**not VIO**) |
+| `experiments/gru6d_weak_b/.../weakB_metrics.json` | Board-then-keyboard IMU windows |
+| `experiments/r13_coverage/coverage_metrics.json` | Visual vs IMU-window **coverage** on `vio_seq_20260911_010902` |
+
+Do **not** use `cross_capture_metrics.json` (unfiltered): mixed checkerboard identities contaminate the mean. Use the `12x9` JSON only.
 
 ---
 
