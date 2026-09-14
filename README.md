@@ -210,8 +210,8 @@ Do **not** use `cross_capture_metrics.json` (unfiltered): mixed checkerboard ide
 If you find this work or code useful in your research, please cite:
 
 ```bibtex
-@article{li2026accurate,
-  title={Accurate Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field},
+@article{li2026camera,
+  title={Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field},
   author={Li, Ranyang and Pan, Junjun and co-authors},
   journal={Pattern Recognition},
   year={2026},

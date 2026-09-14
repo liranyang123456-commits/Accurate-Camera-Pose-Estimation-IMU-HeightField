@@ -1,7 +1,7 @@
 # Benchmark Data and Provenance
 
 This directory stores the official numerical evaluation outputs and data provenance for all tables reported in the manuscript:
-*Accurate Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field*.
+*Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field*.
 
 ## Directory Contents
 
