@@ -32,7 +32,7 @@ from experiments.run_test5_ablation import evaluate_test5_ablation
 def main():
     print("=" * 105)
     print("  CAMERA POSE ESTIMATION WITH IMU MEASUREMENTS AND A STRUCTURAL GRADIENT HEIGHT FIELD")
-    print("  Official Reproduction & Benchmarking Suite (100% Raw Logs & Metrics Verification)")
+    print("  Reproduction of manuscript tables from bundled logs")
     print("=" * 105)
 
     results_dir = REPO_ROOT / "data" / "results"

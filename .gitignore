@@ -33,6 +33,7 @@ ENV/
 # IDE and editors
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 
@@ -56,3 +57,10 @@ ENV/
 run_console.log
 Ablation_*/
 vis/
+
+# Local workstation runners (absolute paths; keep out of the public tree)
+experiments/watch_seg100_ablation.py
+experiments/supervise_seg100.py
+experiments/run_seg100_pose_ablation.py
+experiments/eval_seg100_pose_ablation.py
+experiments/probe_table5_protocol.py

@@ -3,9 +3,8 @@
 """
 CholecSeg8k-Hard stratification for Table 8 (R1-5).
 
-Reuses the already-computed per-frame Dice/IoU/B-F1 from:
-  D:\\reloc3r\\eval_contour_CC_outputs_batch\\archive_soft_tissue\\summary.csv
-  D:\\reloc3r\\eval_contour_CC_outputs_filled_from_contour\\archive_soft_tissue\\summary.csv
+Reuses already-computed per-frame Dice/IoU/B-F1 summary CSVs
+(contour batch and filled-from-contour). Paths can be set below when re-running.
 
 Cue definitions are registered *before* looking at Dice:
   blood     : watershed class 7 (gray 24) pixel fraction >= 0.005

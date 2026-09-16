@@ -78,7 +78,7 @@ def evaluate_drift_analysis(csv_path: Path):
         "-"
     ))
     print("-" * 125)
-    print("Verification passed: Table 7 results are 100% verified against local benchmark CSV.")
+    print("Table 7 printed from the bundled benchmark CSV.")
 
 
 if __name__ == "__main__":

@@ -55,7 +55,7 @@ def evaluate_test5_ablation(csv_path: Path) -> None:
                 r["rmse_gt_5_frames"],
             ))
     print("  " + "-" * 96)
-    print("  Verification passed: Table 9 results are loaded from the verified ablation CSV.")
+    print("  Table 9 loaded from the bundled ablation CSV.")
 
 
 def log(msg: str) -> None:

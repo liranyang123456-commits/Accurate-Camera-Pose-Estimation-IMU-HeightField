@@ -1,13 +1,13 @@
 # Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field
 
-Official PyTorch and Python implementation and reproducible benchmarking suite for the paper:  
+PyTorch and Python implementation for the paper:  
 **"Camera Pose Estimation with IMU Measurements and a Structural Gradient Height Field"** (Submitted to *Pattern Recognition*, PR-D-26-09325).
 
 ---
 
-## 📌 Overview
+## Overview
 
-This repository provides the complete, reproducible source code, baseline evaluations, and benchmark logs for decoupled visual tracking and learned inertial pose regression in challenging endoscopic and weak-texture environments:
+This repository provides source code, baseline evaluations, and benchmark logs for decoupled visual tracking and learned inertial pose regression in challenging endoscopic and weak-texture environments:
 
 1. **Visual Structural Height-Field Front-End:**
    - Constructs an analytic, continuous 2.5D pseudo-height field $z_t(u, v)$ from percentile-truncated image gradients ($q=0.68$), bypassing volumetric neural rendering.
@@ -53,7 +53,7 @@ This repository provides the complete, reproducible source code, baseline evalua
 
 ---
 
-## 📂 Repository Layout
+## Repository Layout
 
 ```text
 Accurate-Camera-Pose-Estimation-IMU-HeightField/
@@ -93,7 +93,7 @@ Accurate-Camera-Pose-Estimation-IMU-HeightField/
 │
 └── data/
     ├── README.md                  # Dataset descriptions and provenance
-    └── results/                   # 100% verified experimental outputs & CSV logs
+        └── results/                   # Benchmark outputs and CSV logs
         ├── chessboard_multi_sequence_aggregate.csv   # Table 5 data
         ├── ours_posegraph_drift.csv                  # Table 7 data
         ├── vio_orbslam3_mono_fixedtest_metrics.json  # Table 3/4 data
@@ -103,7 +103,7 @@ Accurate-Camera-Pose-Estimation-IMU-HeightField/
 
 ---
 
-## ⚙️ Environment Setup
+## Environment Setup
 
 ### 1. Prerequisites
 - Python >= 3.8
@@ -127,7 +127,7 @@ GRU6D checkpoints pickle a `StandardScaler` trained with **scikit-learn 1.6.1**.
 
 ---
 
-## 🚀 One-Click Reproduction Guide (一键复现指南)
+## Reproduction
 
 To verify and reproduce all quantitative tables and benchmark results reported in the manuscript, run the master script:
 
@@ -205,7 +205,7 @@ Do **not** use `cross_capture_metrics.json` (unfiltered): mixed checkerboard ide
 
 ---
 
-## 📖 Citation
+## Citation
 
 If you find this work or code useful in your research, please cite:
 
@@ -221,6 +221,6 @@ If you find this work or code useful in your research, please cite:
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

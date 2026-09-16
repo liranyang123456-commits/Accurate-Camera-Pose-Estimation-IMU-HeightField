@@ -22,7 +22,7 @@ import cv2
 import numpy as np
 from scipy.spatial.transform import Rotation, Slerp
 
-REPO = Path(r"D:\reloc3r\Accurate-Camera-Pose-Estimation-IMU-HeightField")
+REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from src.visual.height_field import (  # noqa: E402
@@ -330,7 +330,7 @@ def main() -> None:
     extra_meta["pair_fitness_median"] = float(np.median([p["fitness"] for p in pair_fit]))
 
     out = summarize(T_list, gt, seq_name, extra_meta)
-    out_path = Path(args.out_json) if args.out_json else Path(r"E:\elsarticle-templateCMBP_IMU_Camera\PR_R1_Revision\experiments\c3vd_heightfield\heightfield_eval.json")
+    out_path = Path(args.out_json) if args.out_json else (REPO / "experiments" / "c3vd_heightfield" / "heightfield_eval.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in out.items() if k != "indices"}, indent=2))
