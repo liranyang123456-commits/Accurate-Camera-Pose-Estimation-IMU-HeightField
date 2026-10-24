@@ -1,0 +1,5 @@
+variant,mean_fitness,mean_rmse,fitness_lt_0_50_frames,rmse_gt_5_frames,metric_scope
+full_pipeline,0.5869,4.8409,79,99,pairwise_registration_diagnostics_not_SE3
+wo_posegraph,0.5856,4.8328,77,86,pairwise_registration_diagnostics_not_SE3
+wo_gate_recovery,0.5894,4.8442,76,96,pairwise_registration_diagnostics_not_SE3
+wo_multiscale_icp,0.4504,4.9776,332,228,pairwise_registration_diagnostics_not_SE3

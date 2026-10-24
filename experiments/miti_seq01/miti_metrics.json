@@ -1,0 +1,66 @@
+{
+  "dataset": "MITI sequence_01",
+  "source": "Hugging Face mirror FishEyeCat/MITI (Hartwig et al., ICRA 2022)",
+  "paths": {
+    "raw": "D:\\reloc3r\\miti_hf\\sequence_01",
+    "euroc": "D:\\reloc3r\\miti_euroc\\sequence_01",
+    "yaml": "D:\\reloc3r\\miti_euroc\\sequence_01\\MITI_stereo_inertial.yaml",
+    "log": "D:\\reloc3r\\miti_euroc\\sequence_01\\orb_out\\orb_si.log"
+  },
+  "conversion": {
+    "n_times_raw": 2388,
+    "n_times_used": 2384,
+    "n_dropped_outside_imu": 4,
+    "t0_ns": 4956000000,
+    "t1_ns": 44734000000,
+    "duration_s": 39.778,
+    "image_size": [960, 540],
+    "camera_fps_yaml": 59,
+    "n_imu": 7961,
+    "imu_hz": 200,
+    "baseline_m": 0.005982983645150313,
+    "imu_T_b_c1": "MITI rgb_0 T_BS (cam0)",
+    "stereo_T_c1_c2": "inv(T_B_c0) @ T_B_c1",
+    "imu_noise_note": "Dataset densities (0.65 rad/s/sqrt(Hz)) are not usable as ORB-SLAM3 priors; EuRoC-like IMU.NoiseGyro=1.7e-4, IMU.NoiseAcc=2.0e-3 were used."
+  },
+  "orbslam3_stereo_inertial": {
+    "binary": "official stereo_inertial_euroc",
+    "vocab": "/root/ORB_SLAM3/Vocabulary/ORBvoc.txt",
+    "imu_initialized": false,
+    "n_new_maps": 324,
+    "n_active_map_resets": 324,
+    "n_fail_track_local_map": 323,
+    "n_not_enough_acceleration": 73,
+    "n_not_enough_motion": 50,
+    "n_not_imu_meas": 323,
+    "new_map_points_min_median_max_mean": [30, 122.5, 321, 125.36],
+    "max_frames_set_to_lost": 1907,
+    "kfs_at_shutdown": 0,
+    "saved_trajectory": false,
+    "ate_rmse_m": null,
+    "reason": "Stereo maps form (tens to ~300 points) then reset; IMU never initializes (not enough acceleration / not enough motion). Shutdown with Map 0 having 0 KFs. Process hung while saving an empty trajectory and was terminated. No ATE is reported."
+  },
+  "do_not": {
+    "copy_tumvi_ate": true,
+    "fill_gru6d_on_miti": true,
+    "treat_as_inhouse_working_vio": true,
+    "treat_as_replacement_for_endoscope_row": true,
+    "treat_stereo_only_as_vio": true
+  },
+  "orbslam3_stereo_only": {
+    "binary": "official stereo_euroc",
+    "yaml": "D:\\reloc3r\\miti_euroc\\sequence_01\\MITI_stereo.yaml",
+    "log": "D:\\reloc3r\\miti_euroc\\sequence_01\\orb_out_stereo\\orb_stereo.log",
+    "traj_file": "D:\\reloc3r\\miti_euroc\\sequence_01\\orb_out_stereo\\f_miti_seq01_stereo.txt",
+    "kf_file": "D:\\reloc3r\\miti_euroc\\sequence_01\\orb_out_stereo\\kf_miti_seq01_stereo.txt",
+    "this_is_not_vio": true,
+    "n_new_map_messages": 12,
+    "n_atlas_maps": 5,
+    "kfs_per_map": [91, 192, 264, 235, 1],
+    "n_saved_frame_poses": 467,
+    "n_saved_keyframe_poses": 264,
+    "kf_save_segfault": true,
+    "ate_rmse_m": null,
+    "reason": "Stereo-only mapping writes a trajectory (467 poses, five maps). IMU is disabled, so this is not VIO. The stereo-inertial failure is IMU initialization, not missing stereo images. No ATE is reported."
+  }
+}

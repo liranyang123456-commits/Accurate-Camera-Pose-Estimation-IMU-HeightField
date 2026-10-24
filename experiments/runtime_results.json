@@ -1,0 +1,50 @@
+{
+  "config": {
+    "width": 640,
+    "q": 0.68,
+    "step": 2,
+    "max_pts": 8000
+  },
+  "frames": 300,
+  "tracker": [
+    {
+      "resolution": "960x540",
+      "front_end_ms": 29.765633999999665,
+      "registration_ms": 280.07165418060225,
+      "total_ms": 309.82749230769224,
+      "wall_ms_per_frame": 308.91360000000003,
+      "python_heap_peak_mb": 11.88669490814209,
+      "rss_increase_mb": 1.0234375,
+      "process_rss_mb": 1906.0703125
+    },
+    {
+      "resolution": "640x360",
+      "front_end_ms": 14.623104666667027,
+      "registration_ms": 242.0583655518393,
+      "total_ms": 256.679628762542,
+      "wall_ms_per_frame": 255.88460699999996,
+      "python_heap_peak_mb": 5.4524993896484375,
+      "rss_increase_mb": 0.30078125,
+      "process_rss_mb": 1906.359375
+    },
+    {
+      "resolution": "480x270",
+      "front_end_ms": 9.762894666666853,
+      "registration_ms": 239.28814214046827,
+      "total_ms": 249.06015451505033,
+      "wall_ms_per_frame": 248.26387666666668,
+      "python_heap_peak_mb": 3.1930160522460938,
+      "rss_increase_mb": 0.02734375,
+      "process_rss_mb": 1906.234375
+    }
+  ],
+  "gru6d": {
+    "ms_per_window": 17.344123943661877,
+    "params": 11436041,
+    "checkpoint_mb": 43.64122486114502
+  },
+  "machine": {
+    "processor": "Intel64 Family 6 Model 198 Stepping 2, GenuineIntel",
+    "cpu_count": 24
+  }
+}

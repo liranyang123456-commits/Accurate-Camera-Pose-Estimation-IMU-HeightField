@@ -1,0 +1,19 @@
+{
+  "threads": 24,
+  "rows": [
+    {
+      "width": 640,
+      "max_pts": 8000,
+      "front_end_ms": 13.16456066666652,
+      "registration_ms": 53.78552483221481,
+      "total_ms": 66.93875234899319
+    },
+    {
+      "width": 640,
+      "max_pts": 4000,
+      "front_end_ms": 12.563662666666648,
+      "registration_ms": 27.281469127516836,
+      "total_ms": 39.83145033557052
+    }
+  ]
+}

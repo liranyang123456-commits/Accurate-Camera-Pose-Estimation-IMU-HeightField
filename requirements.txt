@@ -1,0 +1,13 @@
+numpy>=1.22.0
+scipy>=1.8.0
+torch>=1.12.0
+torchvision>=0.13.0
+open3d>=0.16.0
+opencv-python>=4.5.0
+pyyaml>=6.0
+matplotlib>=3.5.0
+tqdm>=4.64.0
+# Scaler inside GRU6D checkpoints was pickled with scikit-learn 1.6.1.
+# Loading on 1.7.2 may warn; reported metrics are unchanged.
+scikit-learn>=1.6.1
+

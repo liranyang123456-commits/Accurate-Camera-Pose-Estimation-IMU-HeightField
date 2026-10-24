@@ -1,0 +1,54 @@
+{
+  "session_dir": "D:\\reloc3r\\Data_IMU_Camera_Pose_Sequences\\stereo_endoscope\\vio_seq_20260912_104835",
+  "n_frames": 839,
+  "N_windows": 855,
+  "n_pnp_valid": 99,
+  "n_pnp_12x9": 98,
+  "t_last_pnp_valid": 1789181358.790956,
+  "n_windows_board": 432,
+  "n_windows_no_board": 423,
+  "window_rot_deg": {
+    "n": 855,
+    "mean": 1.5096468925476074,
+    "p50": 1.340566873550415,
+    "p95": 3.2556591033935547,
+    "max": 4.648567199707031
+  },
+  "window_trans_mm": {
+    "n": 855,
+    "mean": 5.942657947540283,
+    "p50": 5.104379177093506,
+    "p95": 11.572288513183594,
+    "max": 17.53329086303711
+  },
+  "window_rot_deg_board": {
+    "n": 432,
+    "mean": 1.4667292833328247,
+    "p50": 1.2583270072937012,
+    "p95": 3.234541893005371,
+    "max": 4.648567199707031
+  },
+  "window_rot_deg_no_board": {
+    "n": 423,
+    "mean": 1.5534776449203491,
+    "p50": 1.4075040817260742,
+    "p95": 3.3133232593536377,
+    "max": 4.444176197052002
+  },
+  "window_trans_mm_board": {
+    "n": 432,
+    "mean": 5.883420944213867,
+    "p50": 4.84938907623291,
+    "p95": 11.488494873046875,
+    "max": 17.53329086303711
+  },
+  "window_trans_mm_no_board": {
+    "n": 423,
+    "mean": 6.003155708312988,
+    "p50": 5.335983753204346,
+    "p95": 11.547492980957031,
+    "max": 17.263336181640625
+  },
+  "chain_span_mm": 521.4439314318139,
+  "note": "Qualitative IMU-only chain. No no-board metric ATE. Split at last 12x9 PnP time."
+}

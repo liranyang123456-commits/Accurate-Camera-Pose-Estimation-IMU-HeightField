@@ -1,0 +1,44 @@
+{
+  "n_frames": 8080,
+  "archive": "D:\\360极速浏览器X下载\\archive",
+  "blood_rule": "blood_frac >= 0.005 (watershed class 7 gray=24)",
+  "specular_rule": "specular_frac >= P90 (V>=235/255 and S<=51/255); cutoff=0.0264422",
+  "blur_rule": "lap_var <= P10; cutoff=129.92",
+  "cue_percentiles": {
+    "blood_frac": {
+      "0.5": 0.0,
+      "0.9": 0.0,
+      "0.95": 0.02745181986729118,
+      "0.99": 0.08974785323965653
+    },
+    "specular_frac": {
+      "0.5": 0.004846067525370804,
+      "0.9": 0.02644223263075722,
+      "0.95": 0.04055681596409052,
+      "0.99": 0.06022689793130367
+    },
+    "lap_var": {
+      "0.01": 66.7154641511102,
+      "0.05": 103.45152748826888,
+      "0.1": 129.91956789069542,
+      "0.5": 318.9447960619778,
+      "0.9": 651.2669491227244
+    }
+  },
+  "cutoffs": {
+    "blood_frac_min": 0.005,
+    "specular_frac_min": 0.02644223263075722,
+    "lap_var_max": 129.91956789069542
+  },
+  "subset_counts": {
+    "all": 8080,
+    "blood": 625,
+    "specular": 808,
+    "blur": 808,
+    "hard_union": 2056,
+    "clean": 6024,
+    "blood_and_specular": 173,
+    "blood_and_blur": 0,
+    "specular_and_blur": 12
+  }
+}

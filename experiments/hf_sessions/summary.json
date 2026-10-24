@@ -1,0 +1,63 @@
+{
+  "config": {
+    "width": 640,
+    "q": 0.68,
+    "step": 2,
+    "max_pts": 8000
+  },
+  "session_20260302_013904": {
+    "frames": 496,
+    "fitness_mean": 0.7343234848484849,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260303_041924": {
+    "frames": 548,
+    "fitness_mean": 0.76413802559415,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260303_194947": {
+    "frames": 596,
+    "fitness_mean": 0.7616743697478991,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260304_192738": {
+    "frames": 438,
+    "fitness_mean": 0.7471350114416474,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260304_201525": {
+    "frames": 452,
+    "fitness_mean": 0.7771798780487805,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260304_203129": {
+    "frames": 488,
+    "fitness_mean": 0.7705641683778233,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260304_220945": {
+    "frames": 382,
+    "fitness_mean": 0.7521328740157479,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260305_091503": {
+    "frames": 603,
+    "fitness_mean": 0.8097902823920266,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260306_085201": {
+    "frames": 386,
+    "fitness_mean": 0.7963298701298701,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260307_203023": {
+    "frames": 473,
+    "fitness_mean": 0.7564695444915255,
+    "fitness_lt_0.2": 0
+  },
+  "session_20260307_231326": {
+    "frames": 1119,
+    "fitness_mean": 0.7536611135957066,
+    "fitness_lt_0.2": 0
+  }
+}
