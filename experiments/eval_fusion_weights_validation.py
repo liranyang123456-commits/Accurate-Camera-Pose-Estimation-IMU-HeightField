@@ -5,7 +5,7 @@
 On the 13 validation sessions, GRU6D (seed 0) and the ORB-VO and height-field increments are paired as on the test
 sessions; on the increments that pass the consistency gate (tau = 3 deg), gamma*_R = MSE_imu / (MSE_imu + MSE_vis) of
 the geodesic rotation errors and gamma*_t the same ratio of the squared translation errors with the inertial scale
-(Proposition 1(ii)). The weights are then applied unchanged to the 11 test sessions.
+(Proposition 3(ii)). The weights are then applied unchanged to the 11 test sessions.
 """
 from __future__ import annotations
 

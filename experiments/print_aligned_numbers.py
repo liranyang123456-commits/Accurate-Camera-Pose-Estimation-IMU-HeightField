@@ -38,6 +38,25 @@ def calibration():
             print(f"SENS (inertial scale) tau {row['tau']:4.1f} used {row['0.5'][2]:4d} | {cells} | max excess at 0.5: {row['0.5'][3]:.2f}")
 
 
+def hybrid():
+    """Inertial increment of the method (gyroscope rotation, GRU6D translation) and its gated fusion (Tables 4, 5, 15)."""
+    h = json.loads((HERE / "fusion_hybrid_results.json").read_text(encoding="utf-8"))
+    for k, w in h["weights"].items():
+        print(f"HYBRID weights {k}: grid gamma_R {w['gamma_R']} gamma_t {w['gamma_t']} | closed form {w['closed_form_gamma_R']:.3f} / "
+              f"{w['closed_form_gamma_t']:.3f} ({w['n_gated']}/{w['n_windows']} gated validation windows)")
+    for k, x in h["rows"].items():
+        print(f"HYBRID ROW {k:15s} rot {x['rot_mean']:.3f}/{x['rot_p50']:.3f}/{x['rot_p95']:.3f} trans {x['trans_mean']:.3f}/"
+              f"{x['trans_p50']:.3f}/{x['trans_p95']:.3f} hit {x['hit_rot5']:.3f}/{x['hit_trans20']:.3f}"
+              + (f" used {x['n_visual_used']}" if "n_visual_used" in x else "")
+              + (f" max excess {x['max_excess_deg']:.2f}" if "max_excess_deg" in x else "")
+              + (f" ref scale {x['trans_mean_ref_scale']:.3f}" if "trans_mean_ref_scale" in x else ""))
+    for k, x in h["stats"].items():
+        print(f"HYBRID STAT {k:22s} {x['gain']:+.3f} [{x['ci95'][0]:+.3f}, {x['ci95'][1]:+.3f}] {x['sessions_better']}/11 p {x['p']:.4f}")
+    for row in h["sensitivity"]:
+        cells = " | ".join(f"g {g}: {row[g]['rot_mean']:.3f} deg {row[g]['trans_mean']:.3f} mm" for g in ("0.1", "0.3", "0.5", "0.7"))
+        print(f"HYBRID SENS tau {row['tau']:4.1f} used {row['0.5']['n_used']:4d} | {cells} | max excess at 0.5: {row['0.5']['max_excess']:.2f}")
+
+
 def main():
     calibration()
     runs = {}
@@ -83,6 +102,7 @@ def main():
     for x in R["sensitivity"]:
         print(f"SENS tau {x['tau']:4.1f} g {x['gamma']:.1f} used {x['n_used']:4d} rot {x['rot_mean']:.3f} ({x['rot_p50']:.3f}) trans {x['trans_mean']:.3f} "
               f"hit {x['hit_rot5']:.3f}/{x['hit_trans20']:.3f} max_excess {x['max_excess']:.2f}")
+    hybrid()
 
 
 if __name__ == "__main__":

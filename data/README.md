@@ -38,6 +38,7 @@ Run `python reproduce_all.py` from the repository root to print the reported num
 - `inertial_classical_aligned_results.json`, `inertial_classical_aligned_errors.npz`: classical inertial baselines and their per-window errors.
 - `inertial_baselines_aligned/`: GRU6D and the RoNIN and TLIO encoders trained on the aligned windows (three seeds): metrics, per-window errors, predictions, and validation accuracy.
 - `fixedtest_aligned_results.json`: inertial, visual, and gated estimators, session-level statistics, the bound check, and the shared-subset comparison.
-- `fusion_weights_validation_results.json`, `validation_sessions.json`, `validation_visual_trajectories/`: blend weights selected on the 13 validation sessions and the ORB-VO and height-field trajectories used to select them.
+- `fusion_hybrid_results.json`: the inertial increment of the method (gyroscope rotation, GRU6D translation), its gated fusion with ORB-VO, ORB-SLAM3, and height-field increments, the weights selected on the 13 validation sessions, session-level statistics, the bound check, and the gate sensitivity (Tables 4, 5, and 15 of the manuscript).
+- `fusion_weights_validation_results.json`, `validation_sessions.json`, `validation_visual_trajectories/`: the same weight selection with the full GRU6D output as inertial branch, and the ORB-VO and height-field trajectories of the 13 validation sessions.
 - `orbslam3_mono_inertial_aligned_metrics.json`, `orbslam3_mono_inertial_aligned_coverage.json`: mono-inertial ORB-SLAM3 with the corrected calibration.
-- `vi_gate_sensitivity_inertial_scale.json`: sensitivity to the gate threshold and the blend weight.
+- `vi_gate_sensitivity_inertial_scale.json`: sensitivity to the gate threshold and the blend weight with the full GRU6D output as inertial branch.

@@ -54,12 +54,12 @@ def main():
     R = json.loads(RES.read_text(encoding="utf-8"))
     rows, sub = R["rows"], R["subset"]
     cl = json.loads((HERE / "inertial_classical_aligned_results.json").read_text(encoding="utf-8"))["rows"]
-    fw = json.loads((HERE / "fusion_weights_validation_results.json").read_text(encoding="utf-8"))["test_grid_weights"]
-    lab = ["GRU6D", "Gyro", "Quat.", "ORB-VO", "ORB-VO\n+ GRU6D", "HF\n+ GRU6D"]
+    fh = json.loads((HERE / "fusion_hybrid_results.json").read_text(encoding="utf-8"))["rows"]
+    lab = ["GRU6D", "Gyro", "Quat.", "ORB-VO", "ORB-VO\n+ inertial", "HF\n+ inertial"]
     rot = [rows["gru6d"]["rot_mean"], cl["gyro_zeroT"]["rot_mean"], cl["quat_zeroT"]["rot_mean"], rows["vo_only"]["rot_mean"],
-           fw["vo"]["rot_mean"], fw["hf"]["rot_mean"]]
+           fh["vo_validation"]["rot_mean"], fh["hf_validation"]["rot_mean"]]
     hit = [rows["gru6d"]["hit_rot5"], cl["gyro_zeroT"]["hit_rot5"], cl["quat_zeroT"]["hit_rot5"], rows["vo_only"]["hit_rot5"],
-           fw["vo"]["hit_rot5"], fw["hf"]["hit_rot5"]]
+           fh["vo_validation"]["hit_rot5"], fh["hf_validation"]["hit_rot5"]]
     col = [C_IN, C_CL, C_CL, C_VIS, C_FU, C_FU]
 
     fig, ax = plt.subplots(1, 2, figsize=(7.2, 2.8), constrained_layout=True)
