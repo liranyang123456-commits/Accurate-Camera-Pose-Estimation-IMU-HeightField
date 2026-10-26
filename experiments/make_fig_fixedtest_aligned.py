@@ -83,7 +83,7 @@ def main():
     ax[0].set_ylabel("Rotation error mean (deg)")
     ax[0].set_title(f"(a) Same {s['N']} windows (ORB-SLAM3 tracked)", fontsize=9)
     style(ax[0])
-    n = [s["N"], sub["on_orbvo_windows"]["N"], 2312, 2312]
+    n = [s["N"], rows["vo_only"]["N"], R["N"], R["N"]]
     bars(ax[1], ["ORB-SLAM3", "ORB-VO", "GRU6D", "Gyro"], n, ["#166534", C_VIS, C_IN, C_CL], "{:d}", 20)
     ax[1].set_ylabel("Windows $N$ (all sessions)")
     ax[1].set_title("(b) Coverage", fontsize=9)

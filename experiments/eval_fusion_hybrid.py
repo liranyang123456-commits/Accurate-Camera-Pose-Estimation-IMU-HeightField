@@ -102,6 +102,8 @@ def main():
     vr, vt, _ = blend(vrecs, None, 0, 0, None)
     out["validation_inertial"] = summ(vr, vt)
     out["rows"]["inertial"] = summ(br, bt)
+    rvo, _, _ = ev.visual_only(trecs, "vo")
+    out["stats"]["inertial_vs_orbvo_rot"] = ev.session_stats(rvo - br, sess, names)
     scales = {k: ev.inertial_scales(trecs, k, 0) for k in ("vo", "hf", "slam")}
     for key in ("vo", "hf"):
         w = select(vrecs, key)
