@@ -56,13 +56,15 @@ def main() -> None:
     for idx_bar, val in enumerate(dice_a):
         ax_a.text(x_a[idx_bar] - w_a / 2, val + 0.015, f"{val:.3f}", ha="center", va="bottom", fontsize=6.6,
                   fontweight="bold" if idx_bar == 0 else "normal")
+    ax_a.axhline(0.813, color="black", linestyle="--", linewidth=1.0, label="All-foreground Dice (0.813)")
+    ax_a.axhline(0.690, color="#6b7280", linestyle="--", linewidth=1.0, label="All-foreground IoU (0.690)")
     ax_a.set_xticks(x_a)
     ax_a.set_xticklabels(methods_a, rotation=24, ha="right")
-    ax_a.set_ylim(0, 0.90)
+    ax_a.set_ylim(0, 1.05)
     ax_a.set_ylabel("Overlap Score")
     ax_a.set_title("(a) CholecSeg8k Soft-Tissue Region Overlap (N = 8,080)", fontweight="bold")
     ax_a.grid(axis="y", linestyle="--", alpha=0.35)
-    ax_a.legend(loc="upper right", frameon=True)
+    ax_a.legend(loc="upper right", ncol=2, frameon=True, fontsize=6.8)
 
     # -------------------------------------------------------------------------
     # (b) CholecSeg8k-Hard Stratified Nuisance Subsets (Ours q=0.68 filled)
@@ -84,12 +86,11 @@ def main() -> None:
     ax_b.bar(x_b - w_b, dice_b, w_b, label="Dice ↑", color="#0f766e", edgecolor="black", linewidth=0.4)
     ax_b.bar(x_b, iou_b, w_b, label="IoU ↑", color="#14b8a6", edgecolor="black", linewidth=0.4)
     ax_b.bar(x_b + w_b, bf1_b, w_b, label="Boundary F1 ↑", color="#f59e0b", edgecolor="black", linewidth=0.4)
-    ax_b.axhline(0.769, color="#0f766e", linestyle=":", linewidth=1.0, label="All-frame Dice (0.769)")
-    for i_b, v_b in enumerate(dice_b):
-        ax_b.text(x_b[i_b] - w_b, v_b + 0.015, f"{v_b:.3f}", ha="center", va="bottom", fontsize=6.6)
+    allfg_b = [0.813, 0.803, 0.842, 0.814, 0.853, 0.868]
+    ax_b.scatter(x_b - w_b, allfg_b, marker="_", s=260, linewidths=2.0, color="black", zorder=5, label="All-foreground Dice")
     ax_b.set_xticks(x_b)
     ax_b.set_xticklabels(subsets_b)
-    ax_b.set_ylim(0, 0.92)
+    ax_b.set_ylim(0, 1.08)
     ax_b.set_ylabel("Score")
     ax_b.set_title("(b) Stratified Nuisance Resilience on CholecSeg8k-Hard", fontweight="bold")
     ax_b.grid(axis="y", linestyle="--", alpha=0.35)
@@ -163,20 +164,11 @@ def main() -> None:
     ax_d.legend(loc="upper left", frameon=True)
 
     fig.tight_layout(pad=1.1)
-    out_dir = Path(r"e:\elsarticle-templateCMBP_IMU_Camera\PR_R1_Revision\images")
+    out_dir = Path(__file__).resolve().parent / "figures"
     out_pdf = out_dir / "Fig_contour_metrics_panel.pdf"
     out_png = out_dir / "Fig_contour_metrics_panel.png"
     fig.savefig(out_pdf, bbox_inches="tight")
     fig.savefig(out_png, dpi=300, bbox_inches="tight")
-
-    # Also copy to main workspace images/ and UNIQ directory
-    main_img = Path(r"e:\elsarticle-templateCMBP_IMU_Camera\images")
-    if main_img.exists():
-        fig.savefig(main_img / "Fig_contour_metrics_panel.pdf", bbox_inches="tight")
-        fig.savefig(main_img / "Fig_contour_metrics_panel.png", dpi=300, bbox_inches="tight")
-    uniq_dir = Path(r"e:\elsarticle-templateCMBP_IMU_Camera\PR_R1_Revision\PR_D-26-09325_Clean_LaTeX_UNIQ")
-    if uniq_dir.exists():
-        fig.savefig(uniq_dir / "PR_D2609325_fig_contour_metrics.pdf", bbox_inches="tight")
     print(f"Saved {out_pdf} and {out_png}")
 
 

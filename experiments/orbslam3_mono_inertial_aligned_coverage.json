@@ -1,0 +1,46 @@
+{
+ "protocol": "ORB-SLAM3 mono-inertial with the camera-IMU offset and R_CI of eval_gyro_time_alignment.py (lever arm zero)",
+ "sessions": [
+  "session_20260302_013904",
+  "session_20260303_041924",
+  "session_20260303_194947",
+  "session_20260304_192738",
+  "session_20260304_201525",
+  "session_20260304_203129",
+  "session_20260304_220945",
+  "session_20260305_091503",
+  "session_20260306_085201",
+  "session_20260307_203023",
+  "session_20260307_231326"
+ ],
+ "status": {
+  "session_20260302_013904": 0,
+  "session_20260303_041924": 0,
+  "session_20260303_194947": 2,
+  "session_20260304_192738": 0,
+  "session_20260304_201525": 0,
+  "session_20260304_203129": 1,
+  "session_20260304_220945": 0,
+  "session_20260305_091503": 0,
+  "session_20260306_085201": 0,
+  "session_20260307_203023": 1,
+  "session_20260307_231326": 0
+ },
+ "rpe_windows": {
+  "session_20260302_013904": 0,
+  "session_20260303_041924": 0,
+  "session_20260303_194947": 3,
+  "session_20260304_192738": 0,
+  "session_20260304_201525": 0,
+  "session_20260304_203129": 0,
+  "session_20260304_220945": 0,
+  "session_20260305_091503": 0,
+  "session_20260306_085201": 0,
+  "session_20260307_203023": 0,
+  "session_20260307_231326": 0
+ },
+ "n_with_traj": 3,
+ "n_rpe_windows": 3,
+ "rpe_rot_mean": 5.3222852481942935,
+ "rpe_trans_mean": 5.6480450662135935
+}

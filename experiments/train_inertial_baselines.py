@@ -37,11 +37,25 @@ from imu_camera_mlp import (  # noqa: E402
     _ResidualMLPBlockLN,
     rot6d_to_rotmat_torch,
 )
-from eval_vio_fixedtest_aggregate import _load_fixed_test_sessions_from_train_config  # noqa: E402
-
+ORIG_ROOT = "d:\\reloc3r"
+DATA_ROOT = None
 RUN = IMUCAM_ROOT / "out_train_fixed_seq_20260310_031242"
 OUT = Path(__file__).resolve().parent / "inertial_baselines"
 DS = "fixed_seq_len60_win0.500s_delta_window"
+
+
+def rp(p) -> Path:
+    """Map a path recorded in the training config to DATA_ROOT when the data were copied elsewhere."""
+    s = str(p)
+    if DATA_ROOT is not None and s.lower().startswith(ORIG_ROOT):
+        return Path(DATA_ROOT) / s[len(ORIG_ROOT):].lstrip("\\/").replace("\\", "/")
+    return Path(s)
+
+
+def _load_fixed_test_sessions_from_train_config(path: str):
+    cfg = json.loads(Path(path).read_text(encoding="utf-8"))
+    fixed = cfg["split"]["fixed_test"]
+    return [str(rp(s)) for s in (fixed.get("used_test_sessions") or fixed.get("ref_test_sessions"))]
 
 
 # ----------------------------------------------------------------------------------------- models
@@ -128,8 +142,8 @@ def build(kind: str):
 def load_data():
     cfg = json.loads((RUN / "train_config.json").read_text(encoding="utf-8"))
     z = np.load(RUN / "split_indices.npz")
-    X = np.concatenate([np.load(Path(d["dataset_dir"]) / "X.npy") for d in cfg["datasets"]]).astype(np.float32)
-    Y = np.concatenate([np.load(Path(d["dataset_dir"]) / "y.npy") for d in cfg["datasets"]]).astype(np.float32)[:, :12]
+    X = np.concatenate([np.load(rp(d["dataset_dir"]).parent / DS / "X.npy") for d in cfg["datasets"]]).astype(np.float32)
+    Y = np.concatenate([np.load(rp(d["dataset_dir"]).parent / DS / "y.npy") for d in cfg["datasets"]]).astype(np.float32)[:, :12]
     assert len(X) == cfg["merged_shape"]["N"]
     ref = IMUCameraMLPTrainer.from_checkpoint(str(RUN / "best_model.pth"), device="cpu")
     sx, sp = ref.scaler_imu, ref.scaler_pose
@@ -221,10 +235,17 @@ def train_one(kind, seed, data, device, epochs):
     model.load_state_dict(best_state)
     rows = {}
     for name, x, y in tests:
-        r, t = errors(predict(model, x, device), y, sp)
-        rows[name] = (r, t)
+        p_s = predict(model, x, device)
+        r, t = errors(p_s, y, sp)
+        rows[name] = (r, t, sp.inverse_transform(p_s.astype(np.float64)))
+    vr, vt = errors(predict(model, Xs[iva], device), sp.inverse_transform(Ys[iva].astype(np.float64)), sp)
+    val = {"N": int(len(vr)), "rot_mean": float(vr.mean()), "rot_sd": float(vr.std()), "rot_p50": float(np.median(vr)),
+           "rot_p90": float(np.percentile(vr, 90)), "rot_max": float(vr.max()), "trans_mean": float(vt.mean()),
+           "trans_sd": float(vt.std()), "trans_p50": float(np.median(vt)), "trans_p90": float(np.percentile(vt, 90))}
+    if kind == "gru6d":
+        torch.save(best_state, OUT / f"gru6d_s{seed}.pt")
     n_par = sum(p.numel() for p in model.parameters())
-    return rows, n_par, best, time.time() - t0
+    return rows, n_par, best, time.time() - t0, val
 
 
 def summarize(rows):
@@ -236,15 +257,27 @@ def summarize(rows):
 
 
 def main():
+    global DS, OUT, DATA_ROOT, RUN
     ap = argparse.ArgumentParser()
+    ap.add_argument("--root", default="", help="directory that replaces D:\\reloc3r in the recorded data paths")
     ap.add_argument("--models", default="ronin_resnet,ronin_lstm,tlio_resnet,gru6d")
     ap.add_argument("--seeds", default="0,1,2")
     ap.add_argument("--epochs", type=int, default=1000)
+    ap.add_argument("--ds", default=DS, help="window folder inside each session (e.g. the time-aligned windows)")
+    ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--threads", type=int, default=0, help="CPU threads when no GPU is used (0 = torch default)")
+    ap.add_argument("--cpu", action="store_true")
     args = ap.parse_args()
+    DS, OUT = args.ds, Path(args.out)
+    if args.root:
+        DATA_ROOT = args.root
+        RUN = rp(RUN)
+    if args.threads > 0:
+        torch.set_num_threads(args.threads)
     OUT.mkdir(exist_ok=True)
     torch.backends.cudnn.benchmark = True
     res_path = OUT / f"inertial_baselines_results_s{args.seeds.replace(',', '')}.json"
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() and not args.cpu else "cpu")
     data = load_data()
     _, _, _, _, tests, sp, ref = data
     ref.model.to(device)
@@ -255,8 +288,10 @@ def main():
     print("reference GRU6D checkpoint:", res["reference_gru6d_checkpoint"], flush=True)
     for seed in [int(s) for s in args.seeds.split(",")]:
         for kind in args.models.split(","):
-            rows, n_par, best, secs = train_one(kind, seed, data, device, args.epochs)
+            rows, n_par, best, secs, val = train_one(kind, seed, data, device, args.epochs)
             s = summarize(rows)
+            s["validation"] = val
+            np.savez(OUT / f"pred_{kind}_s{seed}.npz", **{k: v[2] for k, v in rows.items()})
             ses = [k for k in ref_rows]
             d_rot = np.array([rows[k][0].mean() - ref_rows[k][0].mean() for k in ses])
             d_tr = np.array([rows[k][1].mean() - ref_rows[k][1].mean() for k in ses])

@@ -36,7 +36,7 @@ def main():
 
     results_dir = REPO_ROOT / "data" / "results"
 
-    print("\n>>> [1/5] GRU6D split and accuracy, inertial and visual baselines, ORB-SLAM3 coverage, quantile sensitivity...")
+    print("\n>>> [1/5] Monocular ORB-SLAM3 coverage and quantile sensitivity...")
     evaluate_imu_benchmarks(results_dir)
 
     print("\n>>> [2/5] Checkerboard benchmarks...")
@@ -48,7 +48,7 @@ def main():
     print("\n>>> [4/5] Leave-one-out component ablation...")
     evaluate_test5_ablation(results_dir / "test5_leave_one_out_ablation.csv")
 
-    print("\n>>> [5/5] Fusion and session-level statistics, learned inertial encoders, visual benchmarks, runtime, transfer...")
+    print("\n>>> [5/5] Time-aligned inertial and fused estimators, session statistics, visual benchmarks, runtime, VIO diagnostics...")
     print_extended_results()
 
     print("\n" + "=" * 105)

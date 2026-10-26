@@ -192,8 +192,8 @@ def evaluate_table8(csv_batch: Path, csv_fill: Path):
 
 
 def evaluate_imu_benchmarks(res_dir: Path):
-    evaluate_table1(res_dir / "split_val_metrics.json", res_dir / "split_test_metrics.json")
-    evaluate_table2(res_dir)
+    """Monocular ORB-SLAM3 coverage and the quantile sensitivity; the time-aligned inertial and fused results
+    (Tables 3-7 and 15) are printed by experiments/print_aligned_numbers.py."""
     evaluate_table3_and_4(res_dir / "vio_orbslam3_mono_fixedtest_metrics.json", res_dir / "vio_orbslam3_vs_classical_subset.json")
     evaluate_table8(res_dir / "cholecseg8k_contour_scores.csv", res_dir / "cholecseg8k_fill_scores.csv")
 

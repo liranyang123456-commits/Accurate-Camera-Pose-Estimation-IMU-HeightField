@@ -6,6 +6,7 @@ Session-level comparisons use GRU6D re-trained in the same loop (seed-averaged) 
 when all of its seeds are available, and the evaluated GRU6D checkpoint otherwise.
 Gain = error(reference) - error(encoder); a positive value favors the encoder.
 """
+import argparse
 import json
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from scipy import stats
 
 HERE = Path(__file__).resolve().parent
 D = HERE / "inertial_baselines"
+SUFFIX = ""
 KINDS = [("ronin_resnet", "RoNIN-ResNet \\citep{herath2020ronin}"), ("ronin_lstm", "RoNIN-LSTM \\citep{herath2020ronin}"),
          ("tlio_resnet", "TLIO-ResNet \\citep{liu2020tlio}"), ("gru6d", "GRU6D (re-trained, same loop)")]
 SEEDS = (0, 1, 2)
@@ -59,6 +61,12 @@ def fmt_p(p):
 
 
 def main():
+    global D, SUFFIX
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dir", default=str(D))
+    ap.add_argument("--suffix", default="", help="appended to the output row files, e.g. _aligned")
+    args = ap.parse_args()
+    D, SUFFIX = Path(args.dir), args.suffix
     ses, ckpt = load_npz(D / "pred_errors_reference_gru6d.npz")
     res = {}
     for f in sorted(D.glob("inertial_baselines_results_s*.json")):
@@ -96,8 +104,17 @@ def main():
             srows.append(f"{name} vs.\\ {ref_name} & {metric} & ${c[key + '_gain']:.3f}$ & "
                          f"$[{c[key + '_ci'][0]:.3f},\\,{c[key + '_ci'][1]:.3f}]$ & ${c[key + '_sessions_better']}/11$ & "
                          f"${fmt_p(c[key + '_p'])}$ \\\\")
-    (HERE / "rows_inertial_baselines.tex").write_text("\n".join(rows), encoding="utf-8")
-    (HERE / "rows_inertial_session.tex").write_text("\n".join(srows), encoding="utf-8")
+    gy = HERE / "inertial_classical_aligned_errors.npz"
+    if SUFFIX and gy.exists() and use_retrained:
+        z = np.load(gy)
+        sess = z["session"]
+        gyro = {s: (z["rot_gyro"][sess == s], z["trans_zero"][sess == s]) for s in ses}
+        c = compare(gyro, retrained, ses)
+        out["gru6d_vs_gyro"] = c
+        srows.insert(0, f"GRU6D vs.\\ gyroscope integration & rot.\\ ($^\\circ$) & ${c['rot_gain']:.3f}$ & "
+                        f"$[{c['rot_ci'][0]:.3f},\\,{c['rot_ci'][1]:.3f}]$ & ${c['rot_sessions_better']}/11$ & ${fmt_p(c['rot_p'])}$ \\\\")
+    (HERE / f"rows_inertial_baselines{SUFFIX}.tex").write_text("\n".join(rows), encoding="utf-8")
+    (HERE / f"rows_inertial_session{SUFFIX}.tex").write_text("\n".join(srows), encoding="utf-8")
     (D / "inertial_baselines_summary.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     print("\n".join(rows))
     print("\n".join(srows))

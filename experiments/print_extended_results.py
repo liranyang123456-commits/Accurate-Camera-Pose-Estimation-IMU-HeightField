@@ -17,64 +17,6 @@ def _load(rel: str) -> dict:
     return json.loads((ROOT / rel).read_text(encoding="utf-8"))
 
 
-def _gain(g: dict) -> str:
-    lo, hi = g["cluster_ci95"]
-    return (f"gain {g['window_mean_gain']:+.3f}, CI [{lo:.3f}, {hi:.3f}], sessions {g['sessions_improved']}/{g['n_sessions']}, "
-            f"p={g['session_wilcoxon_p']:.4f}")
-
-
-def fusion() -> None:
-    print("\n--- [A] 11 held-out sessions (N=2312 windows of 0.5 s): inertial, visual, and gated estimators ---")
-    vi = _load("combined_vi_and_stats.json")
-    for k in ("gru6d", "slam_blend", "vo_gated"):
-        r = vi[k]
-        print(f"  {r['name']:58s} rot {r['rot_mean']:.3f} deg | trans {r['trans_mean']:.3f} mm | Hit@5deg {r['hit_rot5']:.3f}")
-    j = _load("joint_hf_gru6d_results.json")
-    names = {"zero_rot": "Zero rotation (reference)", "hf_only": "Height field, visual-only rotation",
-             "hf_only_ref": "Height field, visual-only (reference scale)", "hf_gated_rot": "Gated height field + GRU6D (rotation only)",
-             "hf_gated_se3": "Gated height field + GRU6D (SE(3), inertial scale)",
-             "hf_gated_se3_ref": "Gated height field + GRU6D (SE(3), reference scale)"}
-    for k, lab in names.items():
-        r = j["streams"][k]
-        print(f"  {lab:58s} rot {r['rot_mean']:.3f} deg | trans {r['trans_mean']:.3f} mm | N={r['N']} | visual used {r['n_visual_used']}")
-    print(f"    session level vs. GRU6D, gated height field: rot {_gain(j['streams']['hf_gated_rot']['rot_gain_vs_gru6d'])}")
-    for k in ("hf_gated_se3", "hf_gated_se3_ref"):
-        print(f"    session level vs. GRU6D, {k}: trans {_gain(j['streams'][k]['trans_gain_vs_gru6d'])}")
-
-    ss = _load("session_cluster_stats.json")
-    print("\n--- [A2] session-level statistics of the ORB-VO and ORB-SLAM3 blends (interval resamples sessions) ---")
-    for k, v in ss["rotation_deg"].items():
-        lo, hi = v["cluster_bootstrap_ci95_mean_diff"]
-        print(f"  rot {k:46s} gain {v['window_mean_diff']:.3f} deg, CI [{lo:.3f}, {hi:.3f}], "
-              f"sessions {v['n_sessions_proposed_better']}/{v['n_sessions']}, p={v['session_wilcoxon_p']:.4f}")
-    for k, v in ss["translation_mm"].items():
-        if k == "gru6d_mean":
-            continue
-        g = v["gru6d_minus_fused"]
-        lo, hi = g["cluster_bootstrap_ci95_mean_diff"]
-        print(f"  trans {k:40s} mean {v['mean']:.3f} mm, gain CI [{lo:.3f}, {hi:.3f}], "
-              f"sessions {g['n_sessions_proposed_better']}/{g['n_sessions']}, p={g['session_wilcoxon_p']:.4f}")
-
-
-def encoders() -> None:
-    p = ROOT / "inertial_baselines" / "inertial_baselines_summary.json"
-    if not p.exists():
-        return
-    s = json.loads(p.read_text(encoding="utf-8"))
-    ref = s.get("session_reference", "GRU6D")
-    print(f"\n--- [A3] learned inertial encoders, same heads, loss, split, and schedule (session tests vs. {ref}) ---")
-    for k, v in s.items():
-        if not isinstance(v, dict):
-            continue
-        r, t = v["rot_mean"], v["trans_mean"]
-        line = f"  {k:14s} seeds {v['n_seeds']} | rot {sum(r) / len(r):.3f} deg | trans {sum(t) / len(t):.3f} mm | {v['params_M']:.2f} M params"
-        c = v.get("vs_retrained") or (v["vs_checkpoint"] if ref == "GRU6D" else None)
-        if c:
-            line += (f" | rot gain {c['rot_gain']:+.3f} ({c['rot_sessions_better']}/11, p={c['rot_p']:.3f})"
-                     f" | trans gain {c['trans_gain']:+.3f} ({c['trans_sessions_better']}/11, p={c['trans_p']:.3f})")
-        print(line)
-
-
 def visual() -> None:
     print("\n--- [B] Sim(3) ATE (mm) of the height-field tracker and the compared methods, 64 uniform frames ---")
     for name, title in (("real18", "18 real 4K-referenced segments"), ("sim92", "92 simulated sequences"),
@@ -128,10 +70,7 @@ def runtime() -> None:
 
 
 def transfer() -> None:
-    print("\n--- [D] transfer and VIO diagnostics ---")
-    cc = _load("gru6d_cross_capture/cross_capture_metrics_12x9.json")
-    pooled = cc.get("pooled") or cc.get("overall") or {}
-    print("  frozen GRU6D on the second rig (12x9 target):", {k: pooled[k] for k in pooled if k in ("N", "rot_deg_mean", "trans_mean")})
+    print("\n--- [D] VIO diagnostics ---")
     cov = _load("r13_coverage/coverage_metrics.json")
     print(f"  Kalibr capture: ORB-SLAM3 mono {cov['n_frames_mono_matched']}/{cov['n_frames']}, mono-inertial "
           f"{cov['n_frames_mi_matched']}/{cov['n_frames']}, IMU windows {cov['n_imu_windows']}/{cov['n_frames']}")
@@ -140,8 +79,9 @@ def transfer() -> None:
 
 
 def main() -> None:
-    fusion()
-    encoders()
+    from experiments.print_aligned_numbers import main as aligned
+    print("\n--- [A] 11 held-out sessions after the camera-IMU time alignment: inertial, visual, and gated estimators ---")
+    aligned()
     visual()
     controlled()
     runtime()

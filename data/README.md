@@ -19,15 +19,25 @@ Notes.
 - Sim(3) ATE is undefined when the reference camera centre does not move; the 21 simulated pure-rotation sequences are therefore scored by rotation error only.
 - The simulator provides no inertial data. The controlled fusion study (`experiments/eval_controlled_fusion_sim.py`) synthesizes inertial increments from the reference poses with known noise; all other inertial results come from the real camera--IMU recordings.
 - Compared-method trajectories come from the authors' evaluation harness.
+- The inertial and fused metrics in `05_Evaluated_Metrics/` and `06_FixedTest_Checkerboard_Contour_Logs/` predate the correction of the camera--IMU time alignment and are superseded by the files listed below under "Time-aligned inertial evaluation".
 
 ## `results/`
 
-- `split_val_metrics.json`, `split_test_metrics.json`: validation (13 sessions, N = 3760) and held-out test (11 sessions, N = 2312) accuracy of the evaluated GRU6D model.
-- `gru6d_fixedtest_metrics.json`, `inertial_baselines_fixedtest_metrics.json`, `orb_vo_fixedtest_metrics.json`, `orb_imu_quat_fixedtest_metrics.json`: 11-session fixed-test relative-pose metrics (N = 2312).
-- `vio_orbslam3_mono_fixedtest_metrics.json`, `vio_orbslam3_vs_classical_subset.json`: monocular ORB-SLAM3 coverage and shared-subset metrics.
+- `orb_vo_fixedtest_metrics.json`: ORB-VO relative-pose metrics on the 11 held-out sessions (N = 2296).
+- `vio_orbslam3_mono_fixedtest_metrics.json`: monocular ORB-SLAM3 coverage and metrics.
 - `chessboard_multi_sequence_aggregate.csv`: 100-frame solvePnP comparison on five checkerboard sequences.
 - `ours_posegraph_drift.csv`: open-loop vs. pose-graph ATE.
 - `test5_leave_one_out_ablation.csv`: four-variant component ablation.
 - `cholecseg8k_contour_scores.csv`, `cholecseg8k_fill_scores.csv`: CholecSeg8k gradient-quantile sensitivity (N = 8080).
 
 Run `python reproduce_all.py` from the repository root to print the reported numbers.
+
+## Time-aligned inertial evaluation (`experiments/`)
+
+- `gyro_time_alignment_results.json`: camera--IMU latency and extrinsic rotation estimated on the 49 training and validation sessions, and the gyroscope and quaternion baselines with and without the correction.
+- `inertial_classical_aligned_results.json`, `inertial_classical_aligned_errors.npz`: classical inertial baselines and their per-window errors.
+- `inertial_baselines_aligned/`: GRU6D and the RoNIN and TLIO encoders trained on the aligned windows (three seeds): metrics, per-window errors, predictions, and validation accuracy.
+- `fixedtest_aligned_results.json`: inertial, visual, and gated estimators, session-level statistics, the bound check, and the shared-subset comparison.
+- `fusion_weights_validation_results.json`, `validation_sessions.json`, `validation_visual_trajectories/`: blend weights selected on the 13 validation sessions and the ORB-VO and height-field trajectories used to select them.
+- `orbslam3_mono_inertial_aligned_metrics.json`, `orbslam3_mono_inertial_aligned_coverage.json`: mono-inertial ORB-SLAM3 with the corrected calibration.
+- `vi_gate_sensitivity_inertial_scale.json`: sensitivity to the gate threshold and the blend weight.
