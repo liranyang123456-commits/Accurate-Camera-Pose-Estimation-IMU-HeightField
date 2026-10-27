@@ -54,7 +54,7 @@ def records(names, pred):
         meta = list(csv.DictReader(open(sd / ev.DS / "meta.csv", encoding="utf-8")))
         gt_seq = _load_gt_poses_from_frames_labeled(str(sd / "frames_labeled.csv"), max_reproj_rmse=2.0,
                                                     chessboard_mode="majority", chessboard_name="", pos_scale=1.0)
-        vis = {k: ev.load_vis(ev.VIS[k] / n / "traj_tum.txt", gt_seq) for k in ("vo", "hf")}
+        vis = {k: ev.load_vis(ev.VIS[k] / n / "traj_tum.txt", gt_seq) for k in ("vo", "hf", "hvo")}
         t0 = float(gt_seq.t[0])
         for i, m in enumerate(meta):
             te = float(m["t_end"])

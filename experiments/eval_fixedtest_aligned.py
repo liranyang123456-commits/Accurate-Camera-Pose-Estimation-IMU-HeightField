@@ -34,7 +34,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = IMUCAM_ROOT
 RUN = ROOT / "out_train_fixed_seq_20260310_031242"
 DS = "fixed_seq_len60_win0.500s_delta_window"
-VIS = {"vo": ROOT / "vio_runs_classical" / "orb_vo", "slam": ROOT / "vio_runs" / "ORB-SLAM3-mono", "hf": HERE / "hf_sessions"}
+VIS = {"vo": ROOT / "vio_runs_classical" / "orb_vo", "slam": ROOT / "vio_runs" / "ORB-SLAM3-mono", "hf": HERE / "hf_sessions",
+       "hvo": ROOT / "vio_runs_classical" / "orb_hvo"}
 PRED = Path(os.environ.get("GRU6D_PRED_DIR", HERE / "inertial_baselines_aligned"))
 SEEDS = (0, 1, 2)
 TAU, GAMMA, GAMMA_SLAM = 3.0, 0.5, 0.7

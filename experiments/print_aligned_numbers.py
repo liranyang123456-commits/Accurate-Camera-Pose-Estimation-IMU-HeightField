@@ -39,7 +39,7 @@ def calibration():
 
 
 def hybrid():
-    """Inertial increment of the method (gyroscope rotation, GRU6D translation) and its gated fusion (Tables 4, 5, 15)."""
+    """Inertial increment of the method (gyroscope rotation, GRU6D translation) and its gated fusion (Tables 4, 5, 18)."""
     h = json.loads((HERE / "fusion_hybrid_results.json").read_text(encoding="utf-8"))
     for k, w in h["weights"].items():
         print(f"HYBRID weights {k}: grid gamma_R {w['gamma_R']} gamma_t {w['gamma_t']} | closed form {w['closed_form_gamma_R']:.3f} / "
@@ -58,7 +58,7 @@ def hybrid():
 
 
 def addenda():
-    """Session-averaged means, shrinkage control, ungated baseline, Holm adjustment, and time-offset diagnostics (Table 6 and Sec. 4.2)."""
+    """Session-averaged means, shrinkage control, ungated baseline, Holm adjustment, and time-offset diagnostics (Table 8 and Sec. 4.2)."""
     a = json.loads((HERE / "review_addenda_results.json").read_text(encoding="utf-8"))
     print("ADDENDA window share of the two largest sessions:", round(a["window_share"]["largest_two_fraction"], 3))
     for p in a["per_session"]:
@@ -129,6 +129,17 @@ def main():
               f"hit {x['hit_rot5']:.3f}/{x['hit_trans20']:.3f} max_excess {x['max_excess']:.2f}")
     hybrid()
     addenda()
+    for name in ("miti_target_regime_results.json", "tumvi_framerate_results.json"):
+        f = HERE / name
+        if not f.exists():
+            continue
+        d = json.loads(f.read_text(encoding="utf-8"))
+        if "rows" in d and "gyro" in d["rows"]:
+            print("MITI", {k: round(v["mean"], 3) for k, v in d["rows"].items() if isinstance(v, dict)}, "gate accept", round(d["gate_accept_fraction"], 3))
+        if "runs" in d:
+            for k, v in d["runs"].items():
+                print("TUMVI", k, round(v["frame_rate_hz"], 1), "Hz", {s: (v[s].get("num_est_poses"), round(v[s].get("ate_se3_rmse_m", float("nan")), 3))
+                                                                   for s in ("orbslam3_mono_inertial", "vins_fusion_stereo_inertial") if s in v})
 
 
 if __name__ == "__main__":

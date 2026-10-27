@@ -36,7 +36,7 @@ def bars(ax, labels, vals, colors, fmt, dy):
     b = ax.bar(labels, vals, color=colors, width=0.7)
     for r, v in zip(b, vals):
         ax.text(r.get_x() + r.get_width() / 2, v + dy, fmt.format(v), ha="center", va="bottom", fontsize=7)
-    ax.tick_params(axis="x", rotation=20)
+    ax.tick_params(axis="x", rotation=30, labelsize=7.5)
 
 
 def status_rows():
@@ -55,12 +55,12 @@ def main():
     rows, sub = R["rows"], R["subset"]
     cl = json.loads((HERE / "inertial_classical_aligned_results.json").read_text(encoding="utf-8"))["rows"]
     fh = json.loads((HERE / "fusion_hybrid_results.json").read_text(encoding="utf-8"))["rows"]
-    lab = ["GRU6D", "Gyro", "Quat.", "ORB-VO", "ORB-VO\n+ inertial", "HF\n+ inertial"]
+    lab = ["GRU6D", "Gyro", "Quat.", "ORB-VO", "ORB-HVO", "VO blend", "HVO blend", "HF blend"]
     rot = [rows["gru6d"]["rot_mean"], cl["gyro_zeroT"]["rot_mean"], cl["quat_zeroT"]["rot_mean"], rows["vo_only"]["rot_mean"],
-           fh["vo_validation"]["rot_mean"], fh["hf_validation"]["rot_mean"]]
+           fh["hvo_only"]["rot_mean"], fh["vo_validation"]["rot_mean"], fh["hvo_validation"]["rot_mean"], fh["hf_validation"]["rot_mean"]]
     hit = [rows["gru6d"]["hit_rot5"], cl["gyro_zeroT"]["hit_rot5"], cl["quat_zeroT"]["hit_rot5"], rows["vo_only"]["hit_rot5"],
-           fh["vo_validation"]["hit_rot5"], fh["hf_validation"]["hit_rot5"]]
-    col = [C_IN, C_CL, C_CL, C_VIS, C_FU, C_FU]
+           fh["hvo_only"]["hit_rot5"], fh["vo_validation"]["hit_rot5"], fh["hvo_validation"]["hit_rot5"], fh["hf_validation"]["hit_rot5"]]
+    col = [C_IN, C_CL, C_CL, C_VIS, C_VIS, C_FU, C_FU, C_FU]
 
     fig, ax = plt.subplots(1, 2, figsize=(7.2, 2.8), constrained_layout=True)
     bars(ax[0], lab, rot, col, "{:.2f}", 0.06)
@@ -101,7 +101,8 @@ def main():
     style(a)
     b = fig.add_subplot(gs[0, 1])
     pts = [("GRU6D", 2312, rows["gru6d"]["rot_mean"], C_IN), ("Gyro", 2312, cl["gyro_zeroT"]["rot_mean"], C_CL),
-           ("ORB-VO", rows["vo_only"]["N"], rows["vo_only"]["rot_mean"], C_VIS), ("HF", rows["hf_only"]["N"], rows["hf_only"]["rot_mean"], "#b45309"),
+           ("ORB-VO", rows["vo_only"]["N"], rows["vo_only"]["rot_mean"], C_VIS), ("ORB-HVO", fh["hvo_only"]["N"], fh["hvo_only"]["rot_mean"], C_VIS),
+           ("HF", rows["hf_only"]["N"], rows["hf_only"]["rot_mean"], "#b45309"),
            ("ORB-SLAM3", rows["slam_only"]["N"], rows["slam_only"]["rot_mean"], "#166534")]
     for name, nn, r, c in pts:
         b.scatter([nn], [r], s=60, c=c, zorder=3)

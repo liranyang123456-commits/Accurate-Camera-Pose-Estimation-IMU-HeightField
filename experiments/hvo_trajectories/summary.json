@@ -1,0 +1,170 @@
+{
+ "session_20260302_013904": {
+  "frames": 496,
+  "ok_pairs": 495,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 16.4
+ },
+ "session_20260303_041924": {
+  "frames": 548,
+  "ok_pairs": 547,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 17.8
+ },
+ "session_20260303_194947": {
+  "frames": 596,
+  "ok_pairs": 595,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 19.6
+ },
+ "session_20260304_192738": {
+  "frames": 438,
+  "ok_pairs": 437,
+  "fail": 0,
+  "near_pure_rotation": 1,
+  "seconds": 16.0
+ },
+ "session_20260304_201525": {
+  "frames": 452,
+  "ok_pairs": 451,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 15.9
+ },
+ "session_20260304_203129": {
+  "frames": 488,
+  "ok_pairs": 487,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 17.8
+ },
+ "session_20260304_220945": {
+  "frames": 382,
+  "ok_pairs": 381,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 14.1
+ },
+ "session_20260305_091503": {
+  "frames": 603,
+  "ok_pairs": 602,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 19.0
+ },
+ "session_20260306_085201": {
+  "frames": 386,
+  "ok_pairs": 385,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 13.6
+ },
+ "session_20260307_203023": {
+  "frames": 473,
+  "ok_pairs": 472,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 17.0
+ },
+ "session_20260307_231326": {
+  "frames": 1119,
+  "ok_pairs": 1118,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 39.7
+ },
+ "session_20260302_011747": {
+  "frames": 619,
+  "ok_pairs": 618,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 18.2
+ },
+ "session_20260302_013310": {
+  "frames": 639,
+  "ok_pairs": 638,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 18.0
+ },
+ "session_20260302_100145": {
+  "frames": 815,
+  "ok_pairs": 814,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 25.5
+ },
+ "session_20260303_184840": {
+  "frames": 465,
+  "ok_pairs": 464,
+  "fail": 0,
+  "near_pure_rotation": 1,
+  "seconds": 13.7
+ },
+ "session_20260305_015112": {
+  "frames": 538,
+  "ok_pairs": 537,
+  "fail": 0,
+  "near_pure_rotation": 1,
+  "seconds": 15.5
+ },
+ "session_20260305_035200": {
+  "frames": 204,
+  "ok_pairs": 203,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 6.4
+ },
+ "session_20260306_122138": {
+  "frames": 167,
+  "ok_pairs": 166,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 4.9
+ },
+ "session_20260307_021437": {
+  "frames": 366,
+  "ok_pairs": 365,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 11.2
+ },
+ "session_20260307_222836": {
+  "frames": 322,
+  "ok_pairs": 321,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 11.0
+ },
+ "session_20260308_010615": {
+  "frames": 1133,
+  "ok_pairs": 1132,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 36.9
+ },
+ "session_20260308_213936": {
+  "frames": 892,
+  "ok_pairs": 891,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 29.1
+ },
+ "session_20260309_013729": {
+  "frames": 548,
+  "ok_pairs": 545,
+  "fail": 2,
+  "near_pure_rotation": 0,
+  "seconds": 20.5
+ },
+ "session_20260309_040654": {
+  "frames": 384,
+  "ok_pairs": 383,
+  "fail": 0,
+  "near_pure_rotation": 0,
+  "seconds": 13.9
+ }
+}

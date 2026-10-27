@@ -1,0 +1,113 @@
+{
+ "protocol": "Frame-rate sweep of tightly coupled VIO on TUM-VI room1 (hardware-synchronized, Kalibr-calibrated, 20 Hz camera).",
+ "runs": {
+  "stride3": {
+   "frame_rate_hz": 6.666666666666667,
+   "n_frames": 941,
+   "orb_run": {
+    "wsl_rc": 0,
+    "log_tail": "2\n      1 IMU.InsertKFsWhenLost optional parameter does not exist...\n      1 end VIBA 1\n      1 end VIBA 2\n      1 start VIBA 1\n      1 start VIBA 2\nw\u0000s\u0000l\u0000:\u0000 \u0000\ufffdhKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006tM\ufffdn\u007f\f\ufffdFO*g\\\ufffd\ufffdP0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN\ufffdv \u0000W\u0000S\u0000L\u0000 \u0000\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006t\u00020\n\u0000\n\u0000"
+   },
+   "orbslam3_mono_inertial": {
+    "num_est_poses": 902,
+    "num_matched": 885,
+    "ate_se3_rmse_m": 0.09996248815932844,
+    "ate_sim3_rmse_m": 0.09874012704358422,
+    "rpe_rot_mean_deg": 0.44065281159774244,
+    "rpe_trans_mean_m": 0.018730948448430953,
+    "time_span_s": [
+     1520530314.049757,
+     1520530449.2039113
+    ]
+   },
+   "vins_run": {
+    "wsl_rc": 0,
+    "log_tail": "[ok] poses=713 out=/mnt/d/reloc3r/tumvi_room1/framerate/vins_s3\nw\u0000s\u0000l\u0000:\u0000 \u0000\ufffdhKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006tM\ufffdn\u007f\f\ufffdFO*g\\\ufffd\ufffdP0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN\ufffdv \u0000W\u0000S\u0000L\u0000 \u0000\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006t\u00020\n\u0000\n\u0000"
+   },
+   "vins_fusion_stereo_inertial": {
+    "num_est_poses": 713,
+    "num_matched": 703,
+    "ate_se3_rmse_m": 150.88575404205434,
+    "ate_sim3_rmse_m": 1.030840013398003,
+    "rpe_rot_mean_deg": 0.45534054594286,
+    "rpe_trans_mean_m": 2.6114651937534377,
+    "time_span_s": [
+     1520530311.3496768,
+     1520530434.353481
+    ]
+   }
+  },
+  "stride2": {
+   "frame_rate_hz": 10.0,
+   "n_frames": 1411,
+   "orb_run": {
+    "wsl_rc": 0,
+    "log_tail": "2\n      1 IMU.InsertKFsWhenLost optional parameter does not exist...\n      1 end VIBA 1\n      1 end VIBA 2\n      1 start VIBA 1\n      1 start VIBA 2\nw\u0000s\u0000l\u0000:\u0000 \u0000\ufffdhKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006tM\ufffdn\u007f\f\ufffdFO*g\\\ufffd\ufffdP0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN\ufffdv \u0000W\u0000S\u0000L\u0000 \u0000\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006t\u00020\n\u0000\n\u0000"
+   },
+   "orbslam3_mono_inertial": {
+    "num_est_poses": 1355,
+    "num_matched": 1330,
+    "ate_se3_rmse_m": 0.05170772337960031,
+    "ate_sim3_rmse_m": 0.05164633084432047,
+    "rpe_rot_mean_deg": 0.7476424196159744,
+    "rpe_trans_mean_m": 0.02128027809241045,
+    "time_span_s": [
+     1520530313.79975,
+     1520530449.2039113
+    ]
+   },
+   "vins_run": {
+    "wsl_rc": 0,
+    "log_tail": "[ok] poses=1026 out=/mnt/d/reloc3r/tumvi_room1/framerate/vins_s2\nw\u0000s\u0000l\u0000:\u0000 \u0000\ufffdhKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006tM\ufffdn\u007f\f\ufffdFO*g\\\ufffd\ufffdP0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN\ufffdv \u0000W\u0000S\u0000L\u0000 \u0000\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006t\u00020\n\u0000\n\u0000"
+   },
+   "vins_fusion_stereo_inertial": {
+    "num_est_poses": 1026,
+    "num_matched": 1007,
+    "ate_se3_rmse_m": 6.680843321384834,
+    "ate_sim3_rmse_m": 0.9924224726304053,
+    "rpe_rot_mean_deg": 0.4049768505306481,
+    "rpe_trans_mean_m": 0.14006487745359641,
+    "time_span_s": [
+     1520530310.299631,
+     1520530439.1043985
+    ]
+   }
+  },
+  "stride1": {
+   "frame_rate_hz": 20.0,
+   "n_frames": 2821,
+   "orb_run": {
+    "wsl_rc": 0,
+    "log_tail": "2\n      1 IMU.InsertKFsWhenLost optional parameter does not exist...\n      1 end VIBA 1\n      1 end VIBA 2\n      1 start VIBA 1\n      1 start VIBA 2\nw\u0000s\u0000l\u0000:\u0000 \u0000\ufffdhKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006tM\ufffdn\u007f\f\ufffdFO*g\\\ufffd\ufffdP0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN\ufffdv \u0000W\u0000S\u0000L\u0000 \u0000\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006t\u00020\n\u0000\n\u0000"
+   },
+   "orbslam3_mono_inertial": {
+    "num_est_poses": 2704,
+    "num_matched": 2656,
+    "ate_se3_rmse_m": 0.016411500885708807,
+    "ate_sim3_rmse_m": 0.015883413653189838,
+    "rpe_rot_mean_deg": 0.4444480122142494,
+    "rpe_trans_mean_m": 0.009023480203377818,
+    "time_span_s": [
+     1520530314.049757,
+     1520530449.2039113
+    ]
+   },
+   "vins_run": {
+    "wsl_rc": 0,
+    "log_tail": "[ok] poses=1966 out=/mnt/d/reloc3r/tumvi_room1/framerate/vins_s1\nw\u0000s\u0000l\u0000:\u0000 \u0000\ufffdhKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006tM\ufffdn\u007f\f\ufffdFO*g\\\ufffd\ufffdP0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN\ufffdv \u0000W\u0000S\u0000L\u0000 \u0000\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000\ufffdN\u0006t\u00020\n\u0000\n\u0000"
+   },
+   "vins_fusion_stereo_inertial": {
+    "num_est_poses": 1966,
+    "num_matched": 1934,
+    "ate_se3_rmse_m": 1.8425868368851812,
+    "ate_sim3_rmse_m": 0.850437461981766,
+    "rpe_rot_mean_deg": 0.4269727812491702,
+    "rpe_trans_mean_m": 0.049465388362071955,
+    "time_span_s": [
+     1520530309.2495835,
+     1520530444.1544034
+    ]
+   }
+  }
+ }
+}

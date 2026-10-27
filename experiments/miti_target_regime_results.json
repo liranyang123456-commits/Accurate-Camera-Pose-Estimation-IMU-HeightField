@@ -1,0 +1,169 @@
+{
+ "protocol": "Target-regime check with recorded IMU data: MITI laparoscopic sequence 01 (Hartwig et al., 2022).",
+ "sequence": "sequence_01",
+ "duration_s": 39.844,
+ "frame_rate_hz": 58.82352941176657,
+ "diagnostics": {
+  "N_windows": 2356,
+  "window_stride_frames": 29,
+  "N_non_overlapping": 82,
+  "gyro_calibrated_R_CI_delta0_mean": 1.3681170441198742,
+  "gyro_vs_body_reference_identity_mean": 1.3681170441198884,
+  "procrustes_R_CI_angle_to_calibrated_deg": 5.466126630395836,
+  "gyro_procrustes_R_CI_delta0_mean": 1.3557526575882266,
+  "delta_scan_best_s": 0.05,
+  "delta_scan_best_mean": 1.1845366889904072,
+  "delta_scan_zero_mean": 1.3681170441198742,
+  "gt_rotation_per_window_deg": {
+   "mean": 3.0020146540146593,
+   "median": 2.1177978219163585,
+   "p95": 8.442176173840696,
+   "N": 2356
+  },
+  "gt_translation_per_window_mm": {
+   "mean": 5.562912469322996,
+   "median": 3.5590117069788545,
+   "p95": 17.49316516393943,
+   "N": 2356
+  }
+ },
+ "rows": {
+  "blend_gR0.05_gated_max_excess_deg": 0.13840701722345972,
+  "blend_gR0.5_gated_max_excess_deg": 1.4223709853211448,
+  "blend_gR1.0_gated_max_excess_deg": 2.8733679752189616,
+  "blend_gR0.5_ungated_max_excess_deg": 28.89429207899005,
+  "zero_rotation": {
+   "mean": 3.0020146540146593,
+   "median": 2.1177978219163585,
+   "p95": 8.442176173840696,
+   "N": 2356
+  },
+  "gyro": {
+   "mean": 1.3681170441198742,
+   "median": 0.9783207343681153,
+   "p95": 3.8923287843135435,
+   "N": 2356
+  },
+  "blend_gR0.05_gated": {
+   "mean": 1.3653985947632181,
+   "median": 0.9760499787942174,
+   "p95": 3.898219714951596,
+   "N": 2356
+  },
+  "blend_gR0.5_gated": {
+   "mean": 1.4351103820031903,
+   "median": 1.065245386833148,
+   "p95": 3.999538802901527,
+   "N": 2356
+  },
+  "blend_gR1.0_gated": {
+   "mean": 1.6426528880727282,
+   "median": 1.2623378082850985,
+   "p95": 4.127644004488017,
+   "N": 2356
+  },
+  "blend_gR0.5_ungated": {
+   "mean": 3.2415992390585355,
+   "median": 2.5286121635091146,
+   "p95": 8.01239278423458,
+   "N": 2356
+  },
+  "hf_only_supported": {
+   "mean": 6.101776657092033,
+   "median": 4.676127287373605,
+   "p95": 15.985349143701946,
+   "N": 2356
+  },
+  "gyro_on_supported": {
+   "mean": 1.3681170441198742,
+   "median": 0.9783207343681153,
+   "p95": 3.8923287843135435,
+   "N": 2356
+  },
+  "zero_on_supported": {
+   "mean": 3.0020146540146593,
+   "median": 2.1177978219163585,
+   "p95": 8.442176173840696,
+   "N": 2356
+  }
+ },
+ "rows_non_overlapping": {
+  "zero_rotation": {
+   "mean": 3.0748456594036453,
+   "median": 2.0675172258071797,
+   "p95": 7.879198929256851,
+   "N": 82
+  },
+  "gyro": {
+   "mean": 1.2653755226670655,
+   "median": 0.8795988783528372,
+   "p95": 3.372452411226891,
+   "N": 82
+  },
+  "blend_gR0.05_gated": {
+   "mean": 1.2569301033226876,
+   "median": 0.8795988783528372,
+   "p95": 3.372452411226891,
+   "N": 82
+  },
+  "blend_gR0.5_gated": {
+   "mean": 1.2910102270799921,
+   "median": 0.8795988783528372,
+   "p95": 3.374174565766727,
+   "N": 82
+  },
+  "blend_gR1.0_gated": {
+   "mean": 1.4963713773041116,
+   "median": 1.0385101402231247,
+   "p95": 3.46256934691846,
+   "N": 82
+  },
+  "blend_gR0.5_ungated": {
+   "mean": 3.4663500330333896,
+   "median": 2.4400838056464718,
+   "p95": 7.652393546839877,
+   "N": 82
+  },
+  "hf_only_supported": {
+   "mean": 6.567750240211279,
+   "median": 4.429774797657528,
+   "p95": 15.663955178398759,
+   "N": 82
+  },
+  "gyro_on_supported": {
+   "mean": 1.2653755226670655,
+   "median": 0.8795988783528372,
+   "p95": 3.372452411226891,
+   "N": 82
+  },
+  "zero_on_supported": {
+   "mean": 3.0748456594036453,
+   "median": 2.0675172258071797,
+   "p95": 7.879198929256851,
+   "N": 82
+  }
+ },
+ "hf_reference_scale": 0.09851934935412324,
+ "hf_support_fraction": 1.0,
+ "gate_accept_fraction": 0.33149405772495755,
+ "translation_mm": {
+  "zero_translation": {
+   "mean": 5.562912469322996,
+   "median": 3.5590117069788545,
+   "p95": 17.49316516393943,
+   "N": 2356
+  },
+  "hf_reference_scale_supported": {
+   "mean": 6.2774192986219255,
+   "median": 4.209846714972773,
+   "p95": 17.836870705949746,
+   "N": 2356
+  },
+  "zero_translation_supported": {
+   "mean": 5.562912469322996,
+   "median": 3.5590117069788545,
+   "p95": 17.49316516393943,
+   "N": 2356
+  }
+ }
+}

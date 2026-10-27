@@ -106,7 +106,8 @@ def main():
     g = al["variants"]["gyro_corrected_convention_offset"]
     delta, X = float(g["delta_s"]), np.asarray(g["R_CI"])
     hyb = json.loads((HERE / "fusion_hybrid_results.json").read_text(encoding="utf-8"))
-    W = {k: (hyb["weights"][k]["gamma_R"], hyb["weights"][k]["gamma_t"]) for k in ("vo", "hf")}
+    KEYS = [k for k in ("vo", "hf", "hvo") if k in hyb["weights"]]
+    W = {k: (hyb["weights"][k]["gamma_R"], hyb["weights"][k]["gamma_t"]) for k in KEYS}
     val = json.loads((HERE / "validation_sessions.json").read_text(encoding="utf-8"))["validation"]
     vrecs = fw.records(val, fw.gru6d_predict(val))
     fh.add_gyro(vrecs, delta, X)
@@ -116,7 +117,7 @@ def main():
     vsess = np.array([r["session"] for r in vrecs])
     out = {"protocol": __doc__.strip().splitlines()[0], "N": len(trecs), "n_sessions": len(names)}
     gru = lambda r: r["gru"][0][1]  # noqa: E731
-    sc = {k: ev.inertial_scales(trecs, k, 0) for k in ("vo", "hf", "slam")}
+    sc = {k: ev.inertial_scales(trecs, k, 0) for k in KEYS + ["slam"]}
 
     # 1. Window share and per-session table ---------------------------------------------------------------------
     n_per = {n: int((sess == n).sum()) for n in names}
@@ -128,11 +129,11 @@ def main():
     gr = np.array([ev.geo(r["gru"][0][0], r["R_gt"]) for r in trecs])
     it = np.array([np.linalg.norm(gru(r) - r["t_gt"]) for r in trecs])
     rows = {"inertial": fh.blend(trecs, None, 0, 0, None)}
-    for k in ("vo", "hf"):
+    for k in KEYS:
         rows[f"{k}_default"] = fh.blend(trecs, k, 0.5, 0.5, sc[k])
         rows[f"{k}_validation"] = fh.blend(trecs, k, *W[k], sc[k])
     rows["slam_default"] = fh.blend(trecs, "slam", 0.5, 0.5, sc["slam"], gate=False)
-    vis = {k: ev.visual_only(trecs, k) for k in ("vo", "hf", "slam")}
+    vis = {k: ev.visual_only(trecs, k) for k in KEYS + ["slam"]}
     best_delta = {s["session"]: s["best_delta_s"] for s in al["per_session_offset"]["sessions"]}
     per = []
     for n in names:
@@ -143,7 +144,9 @@ def main():
                     "vo_only_rot": float(np.nanmean(vis["vo"][0][m])) if np.any(~np.isnan(vis["vo"][0][m])) else None,
                     "hf_only_rot": float(np.nanmean(vis["hf"][0][m])) if np.any(~np.isnan(vis["hf"][0][m])) else None,
                     "vo_validation_rot": float(rows["vo_validation"][0][m].mean()), "vo_validation_trans": float(rows["vo_validation"][1][m].mean()),
-                    "hf_validation_rot": float(rows["hf_validation"][0][m].mean()), "hf_validation_trans": float(rows["hf_validation"][1][m].mean())})
+                    "hf_validation_rot": float(rows["hf_validation"][0][m].mean()), "hf_validation_trans": float(rows["hf_validation"][1][m].mean()),
+                    "hvo_validation_rot": float(rows["hvo_validation"][0][m].mean()) if "hvo" in KEYS else None,
+                    "hvo_validation_trans": float(rows["hvo_validation"][1][m].mean()) if "hvo" in KEYS else None})
     out["per_session"] = per
 
     # 2. Session-averaged (macro) means for the rows of the main table -----------------------------------------
@@ -194,13 +197,13 @@ def main():
            "pred_norm_mean": float(np.mean([np.linalg.norm(gru(r)) for r in trecs])), "label_norm_mean": float(zt.mean()),
            "direction_cosine_mean": float(cos.mean()), "direction_cosine_median": float(np.median(cos)),
            "fraction_negative_cosine": float(np.mean(cos < 0))}
-    shr["gain_vs_shrunk"] = {k: shr["test_trans_at_s_validation"] - float(rows[k][1].mean()) for k in ("vo_validation", "hf_validation", "vo_default", "hf_default", "slam_default")}
+    shr["gain_vs_shrunk"] = {k: shr["test_trans_at_s_validation"] - float(rows[k][1].mean()) for k in [f"{x}_{m}" for x in KEYS for m in ("validation", "default")] + ["slam_default"]}
     shr["gain_vs_inertial"] = {k: float(rows["inertial"][1].mean() - rows[k][1].mean()) for k in shr["gain_vs_shrunk"]}
     out["shrinkage"] = shr
 
     # 4. Ungated gamma_R = 0 baseline with gamma_t selected on the validation sessions ------------------------------
     ung = {}
-    for k in ("vo", "hf"):
+    for k in KEYS:
         scv = ev.inertial_scales(vrecs, k, 0)
         curve = {float(gt): float(fh.blend(vrecs, k, 0.0, gt, scv, gate=False)[1].mean()) for gt in fh.GRID}
         gt_u = min(curve, key=curve.get)
@@ -215,9 +218,11 @@ def main():
     # 5. Translation damage of the blends (per-window increase over the inertial translation) ----------------------
     dmg = {}
     base_t = rows["inertial"][1]
-    cfgs = {"vo_validation": ("vo", W["vo"], True), "hf_validation": ("hf", W["hf"], True), "vo_default": ("vo", (0.5, 0.5), True),
-            "hf_default": ("hf", (0.5, 0.5), True), "vo_ungated_validation": ("vo", (0.0, ung["vo"]["gamma_t_validation_ungated"]), False),
-            "hf_ungated_validation": ("hf", (0.0, ung["hf"]["gamma_t_validation_ungated"]), False), "slam_default": ("slam", (0.5, 0.5), False)}
+    cfgs = {"slam_default": ("slam", (0.5, 0.5), False)}
+    for k in KEYS:
+        cfgs[f"{k}_validation"] = (k, W[k], True)
+        cfgs[f"{k}_default"] = (k, (0.5, 0.5), True)
+        cfgs[f"{k}_ungated_validation"] = (k, (0.0, ung[k]["gamma_t_validation_ungated"]), False)
     for name, (k, (gR, gt), gate) in cfgs.items():
         _, t, u = fh.blend(trecs, k, gR, gt, sc[k], gate=gate)
         d = t - base_t
@@ -232,7 +237,7 @@ def main():
     for s in seeds:
         src = lambda r, s=s: r["gru"][s][1]  # noqa: E731
         row = {"inertial_trans": float(np.mean([np.linalg.norm(src(r) - r["t_gt"]) for r in trecs]))}
-        for k in ("vo", "hf"):
+        for k in KEYS:
             scs = scales_for(trecs, k, src)
             row[f"{k}_validation_trans"] = float(blend_t(trecs, k, *W[k], scs, src)[1].mean())
         swap[f"gru6d_seed{s}"] = row
@@ -248,7 +253,7 @@ def main():
             idx[r["session"]] = k_ + 1
         src = lambda r, kind=kind: r["enc_" + kind]  # noqa: E731
         row = {"inertial_trans": float(np.mean([np.linalg.norm(src(r) - r["t_gt"]) for r in trecs]))}
-        for k in ("vo", "hf"):
+        for k in KEYS:
             scs = scales_for(trecs, k, src)
             row[f"{k}_validation_trans"] = float(blend_t(trecs, k, *W[k], scs, src)[1].mean())
         swap[f"{kind}_seed0"] = row
@@ -256,7 +261,7 @@ def main():
 
     # 7. Causal inertial scale ---------------------------------------------------------------------------------------
     out["causal_scale"] = {}
-    for k in ("vo", "hf"):
+    for k in KEYS:
         r, t, u = causal_blend(trecs, k, *W[k])
         out["causal_scale"][k] = {"rot": float(r.mean()), "trans": float(t.mean()), "n_used": u}
 
@@ -282,7 +287,7 @@ def main():
     vflip = np.array([ev.geo(r["R_gt"], I3) > 20 and ev.geo(r["R_gyro"], I3) < 5 for r in vrecs])
     vkeep = [r for r, f in zip(vrecs, vflip) if not f]
     resel = {}
-    for k in ("vo", "hf"):
+    for k in KEYS:
         w_keep = fh.select(vkeep, k)
         scv = ev.inertial_scales(vrecs, k, 0)
         rot_med = {float(gg): float(np.median(fh.blend(vrecs, k, gg, 0.0, scv)[0])) for gg in fh.GRID}
@@ -306,7 +311,7 @@ def main():
     trows = {}
     t_shr = np.array([np.linalg.norm(s_val * gru(r) - r["t_gt"]) for r in trecs])
     trows["inertial_shrunk"] = fh.summ(gy, t_shr)
-    for k in ("vo", "hf"):
+    for k in KEYS:
         gt_u = ung[k]["gamma_t_validation_ungated"]
         r, t, u = fh.blend(trecs, k, 0.0, gt_u, sc[k], gate=False)
         trows[f"{k}_ungated_gammaR0"] = fh.summ(r, t, u)
@@ -316,7 +321,9 @@ def main():
     # 9. Holm-adjusted p-values ------------------------------------------------------------------------------------------
     summ = json.loads((HERE / "inertial_baselines_aligned" / "inertial_baselines_summary.json").read_text(encoding="utf-8"))
     p4 = {"inertial_vs_orbvo_rot": hyb["stats"]["inertial_vs_orbvo_rot"]["p"], "gru6d_vs_gyro_rot": summ["gru6d_vs_gyro"]["rot_p"]}
-    for k in ("vo_default", "vo_validation", "hf_default", "hf_validation", "slam_default"):
+    if "inertial_vs_hvo_rot" in hyb["stats"]:
+        p4["inertial_vs_hvo_rot"] = hyb["stats"]["inertial_vs_hvo_rot"]["p"]
+    for k in [f"{x}_{m}" for x in KEYS for m in ("default", "validation")] + ["slam_default"]:
         p4[k + "_rot"] = hyb["stats"][k + "_rot"]["p"]
         p4[k + "_trans"] = hyb["stats"][k + "_trans"]["p"]
     for kind in ENCODERS[:-1]:

@@ -104,8 +104,14 @@ def main():
     out["rows"]["inertial"] = summ(br, bt)
     rvo, _, _ = ev.visual_only(trecs, "vo")
     out["stats"]["inertial_vs_orbvo_rot"] = ev.session_stats(rvo - br, sess, names)
-    scales = {k: ev.inertial_scales(trecs, k, 0) for k in ("vo", "hf", "slam")}
-    for key in ("vo", "hf"):
+    front_ends = ["vo", "hf"] + (["hvo"] if any(r.get("hvo_ok") for r in trecs) and any(r.get("hvo_ok") for r in vrecs) else [])
+    scales = {k: ev.inertial_scales(trecs, k, 0) for k in front_ends + ["slam"]}
+    for key in front_ends:
+        if key == "hvo":
+            rv, tv, mv = ev.visual_only(trecs, "hvo")
+            out["rows"]["hvo_only"] = summ(rv[mv], tv[mv])
+            out["rows"]["hvo_only"]["coverage"] = float(mv.mean())
+            out["stats"]["inertial_vs_hvo_rot"] = ev.session_stats(rv - br, sess, names)
         w = select(vrecs, key)
         out["weights"][key] = w
         for name, (gR, gt, gate) in {"default": (0.5, 0.5, True), "validation": (w["gamma_R"], w["gamma_t"], True),
