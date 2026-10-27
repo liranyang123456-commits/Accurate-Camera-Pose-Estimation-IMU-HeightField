@@ -57,6 +57,31 @@ def hybrid():
         print(f"HYBRID SENS tau {row['tau']:4.1f} used {row['0.5']['n_used']:4d} | {cells} | max excess at 0.5: {row['0.5']['max_excess']:.2f}")
 
 
+def addenda():
+    """Session-averaged means, shrinkage control, ungated baseline, Holm adjustment, and time-offset diagnostics (Table 6 and Sec. 4.2)."""
+    a = json.loads((HERE / "review_addenda_results.json").read_text(encoding="utf-8"))
+    print("ADDENDA window share of the two largest sessions:", round(a["window_share"]["largest_two_fraction"], 3))
+    for p in a["per_session"]:
+        print(f"ADDENDA SESSION {p['session'][-6:]} N {p['N']:4d} delta {p['best_delta_s']:+.2f} PnP {p['reproj_rmse_median_px']:.2f} px | rot zero {p['zero_rot']:.2f} "
+              f"gyro {p['gyro_rot']:.2f} gru6d {p['gru6d_rot']:.2f} | trans zero {p['zero_trans']:.2f} inertial {p['inertial_trans']:.2f} "
+              f"vo {p['vo_validation_trans']:.2f} hf {p['hf_validation_trans']:.2f}")
+    print("ADDENDA MACRO", {k: (round(v["rot"], 3), round(v["trans"], 3)) for k, v in a["macro_means"].items()})
+    s = a["shrinkage"]
+    print(f"ADDENDA SHRINK s_val {s['s_validation']} -> {s['test_trans_at_s_validation']:.3f} mm (oracle s {s['s_test_oracle']} -> {s['test_trans_at_s_test']:.3f}); "
+          f"cosine mean {s['direction_cosine_mean']:.2f}, negative {s['fraction_negative_cosine']:.3f}; gains vs shrunk "
+          + str({k: round(v, 3) for k, v in s["gain_vs_shrunk"].items()}))
+    print("ADDENDA UNGATED", {k: (v["gamma_t_validation_ungated"], round(v["test_trans"], 3), v["n_used"]) for k, v in a["ungated_gammaR0"].items()})
+    print("ADDENDA DAMAGE", {k: (round(v["max_increase_mm"], 1), round(v["p95_increase_mm"], 2), v["n_increase_gt5mm"]) for k, v in a["translation_damage"].items()})
+    print("ADDENDA SWAP", {k: {kk: round(vv, 3) for kk, vv in v.items()} for k, v in a["translation_source_swap"].items()})
+    print("ADDENDA CAUSAL", {k: (round(v["rot"], 3), round(v["trans"], 3), v["n_used"]) for k, v in a["causal_scale"].items()})
+    print("ADDENDA HOLM session table", {k: round(v["p_holm"], 3) for k, v in a["holm_table_session_stats"].items()})
+    print("ADDENDA HOLM visual", {b: {k: round(v, 3) for k, v in d.items()} for b, d in a["holm_visual_tables"].items()})
+    t = a["time_offset"]
+    print(f"ADDENDA OFFSET test sessions within 0.05 s of -0.50: {t['n_sessions_delta_within_0.05_of_minus0.50']}/11; oracle per-session delta pooled "
+          f"{t['oracle_session_delta_pooled_mean']:.3f} deg; consecutive-frame-pair estimate {t['consecutive_frame_pairs']['best_delta_s']} s "
+          f"({t['consecutive_frame_pairs']['n_pairs']} pairs, mean dt {t['consecutive_frame_pairs']['mean_dt_s']:.3f} s)")
+
+
 def main():
     calibration()
     runs = {}
@@ -103,6 +128,7 @@ def main():
         print(f"SENS tau {x['tau']:4.1f} g {x['gamma']:.1f} used {x['n_used']:4d} rot {x['rot_mean']:.3f} ({x['rot_p50']:.3f}) trans {x['trans_mean']:.3f} "
               f"hit {x['hit_rot5']:.3f}/{x['hit_trans20']:.3f} max_excess {x['max_excess']:.2f}")
     hybrid()
+    addenda()
 
 
 if __name__ == "__main__":
