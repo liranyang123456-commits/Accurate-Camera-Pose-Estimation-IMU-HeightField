@@ -129,13 +129,17 @@ def main():
               f"hit {x['hit_rot5']:.3f}/{x['hit_trans20']:.3f} max_excess {x['max_excess']:.2f}")
     hybrid()
     addenda()
-    for name in ("miti_target_regime_results.json", "tumvi_framerate_results.json"):
+    for name in ("miti_target_regime_results.json", "miti_target_regime_results_stride10.json", "miti_fusion_results.json", "tumvi_framerate_results.json"):
         f = HERE / name
         if not f.exists():
             continue
         d = json.loads(f.read_text(encoding="utf-8"))
         if "rows" in d and "gyro" in d["rows"]:
-            print("MITI", {k: round(v["mean"], 3) for k, v in d["rows"].items() if isinstance(v, dict)}, "gate accept", round(d["gate_accept_fraction"], 3))
+            print("MITI seq01", name, {k: round(v["mean"], 3) for k, v in d["rows"].items() if isinstance(v, dict)}, "gate accept", round(d["gate_accept_fraction"], 3))
+        if "encoders_test_trans_mm" in d:
+            print("MITI nine sequences N", d["N"], "encoders trans mm", {k: round(v, 3) for k, v in d["encoders_test_trans_mm"].items()})
+            for k, v in d["rows"].items():
+                print(f"MITI {k:28s} rot {v['rot_mean']:.3f}/{v['rot_p50']:.3f}/{v['rot_p95']:.3f}  trans {v['trans_mean']:.3f}/{v['trans_p50']:.3f}/{v['trans_p95']:.3f}")
         if "runs" in d:
             for k, v in d["runs"].items():
                 print("TUMVI", k, round(v["frame_rate_hz"], 1), "Hz", {s: (v[s].get("num_est_poses"), round(v[s].get("ate_se3_rmse_m", float("nan")), 3))
