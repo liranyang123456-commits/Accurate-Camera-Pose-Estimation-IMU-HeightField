@@ -11,6 +11,8 @@ without the gate. No inertial translation is available for this mounting (GRU6D 
 translation is reported for the height field with the reference scale and for the zero-translation estimate only.
 
   --run-hf   run the height-field tracker (hf_tracker.py; needs open3d) on cam0 and write the TUM trajectory first.
+  --stride k use every k-th frame (k = 10 gives 5.9 Hz, the frame rate of the primary rig): the tracker chains k times fewer
+             registrations per 0.5 s window, and the windows end at the subsampled frames.
 """
 from __future__ import annotations
 
@@ -27,8 +29,8 @@ from paths import IMUCAM_ROOT  # noqa: E402
 sys.path.insert(0, str(IMUCAM_ROOT))
 
 MITI = IMUCAM_ROOT / "miti_euroc" / "sequence_01"
-HF_TRAJ = IMUCAM_ROOT / "miti_hf_runs" / "sequence_01" / "traj_tum.txt"
-OUT = HERE / "miti_target_regime_results.json"
+HF_DIR = IMUCAM_ROOT / "miti_hf_runs" / "sequence_01"
+OUT_BASE = HERE / "miti_target_regime_results"
 WIN, TAU = 0.5, 3.0
 DELTAS = np.round(np.arange(-0.30, 0.3001, 0.01), 3)
 
@@ -46,10 +48,11 @@ def load_gt():
     return t, p, R
 
 
-def run_hf():
+def run_hf(stride=1):
     import cv2
     from hf_tracker import CFG, static_mask, track  # noqa: E402  (needs open3d)
-    ts = frame_times()
+    ts = frame_times()[::stride]
+    HF_TRAJ = HF_DIR / ("traj_tum.txt" if stride == 1 else f"traj_tum_stride{stride}.txt")
     files = [MITI / "mav0" / "cam0" / "data" / f"{t}.png" for t in ts]
     mask = static_mask([cv2.imread(str(f)) for f in files[::40]])
     out = track((cv2.imread(str(f)) for f in files), mask, CFG)
@@ -71,9 +74,13 @@ def summ(e):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-hf", action="store_true")
+    ap.add_argument("--stride", type=int, default=1)
     args = ap.parse_args()
+    stride = max(1, args.stride)
+    HF_TRAJ = HF_DIR / ("traj_tum.txt" if stride == 1 else f"traj_tum_stride{stride}.txt")
+    OUT = Path(str(OUT_BASE) + ("" if stride == 1 else f"_stride{stride}") + ".json")
     if args.run_hf:
-        run_hf()
+        run_hf(stride)
         return
     from eval_vio_trajectory_rpe_ate import PoseSeq, _interp_pose, _rel_end_frame  # noqa: E402
     import eval_fixedtest_aligned as ev  # noqa: E402
@@ -88,7 +95,7 @@ def main():
     cam_seq = PoseSeq(t=tg, p=pc, q=Rotation.from_matrix(Rc).as_quat()[:, [3, 0, 1, 2]])
     body_seq = PoseSeq(t=tg, p=pg * 1000.0, q=Rotation.from_matrix(Rg).as_quat()[:, [3, 0, 1, 2]])
 
-    ts_cam = frame_times() * 1e-9
+    ts_cam = frame_times()[::stride] * 1e-9
     recs = []
     for te in ts_cam:
         ts = te - WIN
@@ -135,7 +142,7 @@ def main():
             "gt_translation_per_window_mm": summ(np.linalg.norm(t_gt, axis=1))}
 
     out = {"protocol": __doc__.strip().splitlines()[0], "sequence": MITI.name, "duration_s": float(ts_cam[-1] - ts_cam[0]),
-           "frame_rate_hz": 1.0 / dt, "diagnostics": diag, "rows": {}, "rows_non_overlapping": {}}
+           "frame_stride": stride, "frame_rate_hz": 1.0 / dt, "diagnostics": diag, "rows": {}, "rows_non_overlapping": {}}
     R_gyro = gyro_pred(0.0)
     rows = {"zero_rotation": err(np.repeat(np.eye(3)[None], N, 0)), "gyro": e0}
 

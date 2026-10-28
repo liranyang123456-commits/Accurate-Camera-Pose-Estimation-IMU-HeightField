@@ -1,0 +1,101 @@
+{
+ "sequence_01": {
+  "offset_s_sensordata_minus_mirror": 0.6174999999999229,
+  "ncc": 0.9925809754062993,
+  "mirror_t0_s": 4.906000000000001,
+  "mirror_t1_s": 44.75,
+  "duration_s": 39.844,
+  "sensordata_t0_s": 5.523499999999924,
+  "sensordata_t1_s": 45.36749999999992,
+  "n_frames": 2388,
+  "n_gt": 2382
+ },
+ "sequence_02": {
+  "offset_s_sensordata_minus_mirror": 0.6049999999999232,
+  "ncc": 0.998679539457495,
+  "mirror_t0_s": 45.201,
+  "mirror_t1_s": 51.627,
+  "duration_s": 6.426,
+  "sensordata_t0_s": 45.805999999999926,
+  "sensordata_t1_s": 52.23199999999993,
+  "n_frames": 386,
+  "n_gt": 377
+ },
+ "sequence_03": {
+  "offset_s_sensordata_minus_mirror": 0.5999999999999233,
+  "ncc": 0.9987048132963745,
+  "mirror_t0_s": 52.162000000000006,
+  "mirror_t1_s": 61.676,
+  "duration_s": 9.514000000000001,
+  "sensordata_t0_s": 52.76199999999993,
+  "sensordata_t1_s": 62.275999999999925,
+  "n_frames": 571,
+  "n_gt": 565
+ },
+ "sequence_04": {
+  "offset_s_sensordata_minus_mirror": 0.5949999999999234,
+  "ncc": 0.9991767982421067,
+  "mirror_t0_s": 65.031,
+  "mirror_t1_s": 75.23,
+  "duration_s": 10.199,
+  "sensordata_t0_s": 65.62599999999993,
+  "sensordata_t1_s": 75.82499999999993,
+  "n_frames": 612,
+  "n_gt": 606
+ },
+ "sequence_05": {
+  "offset_s_sensordata_minus_mirror": 0.5424999999999245,
+  "ncc": 0.995977715103657,
+  "mirror_t0_s": 169.357,
+  "mirror_t1_s": 177.303,
+  "duration_s": 7.946000000000001,
+  "sensordata_t0_s": 169.89949999999993,
+  "sensordata_t1_s": 177.84549999999993,
+  "n_frames": 477,
+  "n_gt": 475
+ },
+ "sequence_06": {
+  "offset_s_sensordata_minus_mirror": 0.5249999999999249,
+  "ncc": 0.9946087717258587,
+  "mirror_t0_s": 190.823,
+  "mirror_t1_s": 224.508,
+  "duration_s": 33.685,
+  "sensordata_t0_s": 191.34799999999993,
+  "sensordata_t1_s": 225.03299999999993,
+  "n_frames": 2019,
+  "n_gt": 2012
+ },
+ "sequence_07": {
+  "offset_s_sensordata_minus_mirror": 0.5074999999999252,
+  "ncc": 0.9981646892194372,
+  "mirror_t0_s": 237.76200000000003,
+  "mirror_t1_s": 254.25400000000002,
+  "duration_s": 16.492,
+  "sensordata_t0_s": 238.26949999999997,
+  "sensordata_t1_s": 254.76149999999996,
+  "n_frames": 989,
+  "n_gt": 973
+ },
+ "sequence_08": {
+  "offset_s_sensordata_minus_mirror": 0.329999999999929,
+  "ncc": 0.9991785311589592,
+  "mirror_t0_s": 600.316,
+  "mirror_t1_s": 604.74,
+  "duration_s": 4.424,
+  "sensordata_t0_s": 600.646,
+  "sensordata_t1_s": 605.0699999999999,
+  "n_frames": 266,
+  "n_gt": 260
+ },
+ "sequence_09": {
+  "offset_s_sensordata_minus_mirror": 0.30499999999992955,
+  "ncc": 0.9968170974498481,
+  "mirror_t0_s": 628.493,
+  "mirror_t1_s": 667.519,
+  "duration_s": 39.026,
+  "sensordata_t0_s": 628.798,
+  "sensordata_t1_s": 667.824,
+  "n_frames": 2339,
+  "n_gt": 2333
+ }
+}

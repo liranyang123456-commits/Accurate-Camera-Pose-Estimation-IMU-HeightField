@@ -1,0 +1,170 @@
+{
+ "protocol": "Target-regime check with recorded IMU data: MITI laparoscopic sequence 01 (Hartwig et al., 2022).",
+ "sequence": "sequence_01",
+ "duration_s": 39.727000000000004,
+ "frame_stride": 3,
+ "frame_rate_hz": 5.988023952095815,
+ "diagnostics": {
+  "N_windows": 236,
+  "window_stride_frames": 3,
+  "N_non_overlapping": 79,
+  "gyro_calibrated_R_CI_delta0_mean": 1.3901690915631748,
+  "gyro_vs_body_reference_identity_mean": 1.3901690915631864,
+  "procrustes_R_CI_angle_to_calibrated_deg": 6.025052591497395,
+  "gyro_procrustes_R_CI_delta0_mean": 1.375493753265111,
+  "delta_scan_best_s": 0.05,
+  "delta_scan_best_mean": 1.1832801746916204,
+  "delta_scan_zero_mean": 1.3901690915631748,
+  "gt_rotation_per_window_deg": {
+   "mean": 2.971255040350312,
+   "median": 2.114350607829698,
+   "p95": 8.088974828346114,
+   "N": 236
+  },
+  "gt_translation_per_window_mm": {
+   "mean": 5.569427595296152,
+   "median": 3.583116512457833,
+   "p95": 17.236216389596734,
+   "N": 236
+  }
+ },
+ "rows": {
+  "blend_gR0.05_gated_max_excess_deg": 0.13180125688085265,
+  "blend_gR0.5_gated_max_excess_deg": 1.410467217302491,
+  "blend_gR1.0_gated_max_excess_deg": 2.852666731596808,
+  "blend_gR0.5_ungated_max_excess_deg": 7.274816011379892,
+  "zero_rotation": {
+   "mean": 2.971255040350312,
+   "median": 2.114350607829698,
+   "p95": 8.088974828346114,
+   "N": 236
+  },
+  "gyro": {
+   "mean": 1.3901690915631748,
+   "median": 1.0155501834320129,
+   "p95": 3.900170882839273,
+   "N": 236
+  },
+  "blend_gR0.05_gated": {
+   "mean": 1.383222015396173,
+   "median": 1.0124531996984292,
+   "p95": 3.900170882839273,
+   "N": 236
+  },
+  "blend_gR0.5_gated": {
+   "mean": 1.4610493088454655,
+   "median": 1.1439911786817405,
+   "p95": 4.0588310787248485,
+   "N": 236
+  },
+  "blend_gR1.0_gated": {
+   "mean": 1.7512080039727007,
+   "median": 1.4204837527992766,
+   "p95": 4.0588310787248485,
+   "N": 236
+  },
+  "blend_gR0.5_ungated": {
+   "mean": 2.152090157992044,
+   "median": 1.64934515130009,
+   "p95": 6.004155021291423,
+   "N": 236
+  },
+  "hf_only_supported": {
+   "mean": 3.7685041811102806,
+   "median": 3.1296761462595706,
+   "p95": 9.54079987016591,
+   "N": 236
+  },
+  "gyro_on_supported": {
+   "mean": 1.3901690915631748,
+   "median": 1.0155501834320129,
+   "p95": 3.900170882839273,
+   "N": 236
+  },
+  "zero_on_supported": {
+   "mean": 2.971255040350312,
+   "median": 2.114350607829698,
+   "p95": 8.088974828346114,
+   "N": 236
+  }
+ },
+ "rows_non_overlapping": {
+  "zero_rotation": {
+   "mean": 2.8379117320674148,
+   "median": 2.0150353171922175,
+   "p95": 7.041981516068645,
+   "N": 79
+  },
+  "gyro": {
+   "mean": 1.2659187287761582,
+   "median": 1.0650353281089449,
+   "p95": 2.8228146888202175,
+   "N": 79
+  },
+  "blend_gR0.05_gated": {
+   "mean": 1.262942786540163,
+   "median": 1.0650353281089449,
+   "p95": 2.8228146888202175,
+   "N": 79
+  },
+  "blend_gR0.5_gated": {
+   "mean": 1.3583715380006143,
+   "median": 1.0794360336174154,
+   "p95": 2.8228146888202175,
+   "N": 79
+  },
+  "blend_gR1.0_gated": {
+   "mean": 1.6429401718765178,
+   "median": 1.3632407602582384,
+   "p95": 3.5794140391307883,
+   "N": 79
+  },
+  "blend_gR0.5_ungated": {
+   "mean": 2.098982728778366,
+   "median": 1.6589682874095308,
+   "p95": 4.744511379283123,
+   "N": 79
+  },
+  "hf_only_supported": {
+   "mean": 3.811559107371164,
+   "median": 3.2546152855657997,
+   "p95": 9.274016550033902,
+   "N": 79
+  },
+  "gyro_on_supported": {
+   "mean": 1.2659187287761582,
+   "median": 1.0650353281089449,
+   "p95": 2.8228146888202175,
+   "N": 79
+  },
+  "zero_on_supported": {
+   "mean": 2.8379117320674148,
+   "median": 2.0150353171922175,
+   "p95": 7.041981516068645,
+   "N": 79
+  }
+ },
+ "hf_reference_scale": 0.12191179251857179,
+ "hf_support_fraction": 1.0,
+ "gate_accept_fraction": 0.4957627118644068,
+ "translation_mm": {
+  "zero_translation": {
+   "mean": 5.569427595296152,
+   "median": 3.583116512457833,
+   "p95": 17.236216389596734,
+   "N": 236
+  },
+  "hf_reference_scale_supported": {
+   "mean": 5.521899071087817,
+   "median": 3.8788335152631035,
+   "p95": 17.23823088734715,
+   "N": 236
+  },
+  "zero_translation_supported": {
+   "mean": 5.569427595296152,
+   "median": 3.583116512457833,
+   "p95": 17.236216389596734,
+   "N": 236
+  }
+ }
+}

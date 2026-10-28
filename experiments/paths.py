@@ -7,7 +7,10 @@ IMUCAM_ROOT   directory with the IMU--camera recordings (Data_IMU_Camera_Pose_Se
               (vio_runs_classical/, vio_runs/), and the GRU6D training and evaluation modules.
 ENDOSIM_ROOT  EndoEgoSim harness (https://github.com/liranyang123456-commits/EndoEgoSim) with the test lists
               (lists/), the sequences (sim_data/), and the compared-method trajectories (results/sota/).
-Both default to sibling directories of this repository and can be set as environment variables.
+MITI_ROOT     MITI release (Hartwig et al., 2022): tum/sensordata.zip and tum/mirror_time_alignment.json (this
+              repository's experiments/miti/ holds a copy of the alignment file) and hf/sequence_0k/ with the nine
+              curated sequences of the public mirror.
+All default to sibling directories of this repository and can be set as environment variables.
 """
 import os
 from pathlib import Path
@@ -17,6 +20,7 @@ import numpy as np
 REPO = Path(__file__).resolve().parents[1]
 IMUCAM_ROOT = Path(os.environ.get("IMUCAM_ROOT", REPO.parent / "imu_camera"))
 ENDOSIM_ROOT = Path(os.environ.get("ENDOSIM_ROOT", REPO.parent / "EndoEgoSim"))
+MITI_ROOT = Path(os.environ.get("MITI_ROOT", REPO.parent / "MITI"))
 
 
 def eval_with_scale_correction(est, gt):
