@@ -1,0 +1,119 @@
+{
+ "protocol": "Controlled degradation of official ORB-SLAM3 mono-inertial on TUM-VI room1, one condition at a time: the lever arm of",
+ "runs": {
+  "lever0_20hz": {
+   "stride": 1,
+   "frame_rate_hz": 20.0,
+   "lever_arm_zero": true,
+   "imu_offset_s": 0.0,
+   "maps_created": 2,
+   "viba2_completed": 1,
+   "trajectory": "D:\\reloc3r\\tumvi_room1\\degradation\\deg_lever0_20hz\\f_deg_lever0_20hz.txt",
+   "num_est_poses": 2704,
+   "num_matched": 2656,
+   "ate_se3_rmse_m": 0.06711794063768292,
+   "ate_sim3_rmse_m": 0.06690711717401891,
+   "rpe_rot_mean_deg": 0.4650039973393462,
+   "rpe_trans_mean_m": 0.0378878607194993,
+   "time_span_s": [
+    1520530314.049757,
+    1520530449.2039113
+   ]
+  },
+  "offset0.02_20hz": {
+   "stride": 1,
+   "frame_rate_hz": 20.0,
+   "lever_arm_zero": false,
+   "imu_offset_s": 0.02,
+   "maps_created": 2,
+   "viba2_completed": 1,
+   "trajectory": "D:\\reloc3r\\tumvi_room1\\degradation\\deg_offset0p02_20hz\\f_deg_offset0p02_20hz.txt",
+   "num_est_poses": 2704,
+   "num_matched": 2656,
+   "ate_se3_rmse_m": 0.06499977101858236,
+   "ate_sim3_rmse_m": 0.06026831297301021,
+   "rpe_rot_mean_deg": 1.8342815185058676,
+   "rpe_trans_mean_m": 0.041258178134209435,
+   "time_span_s": [
+    1520530314.049757,
+    1520530449.2039113
+   ]
+  },
+  "offset0.05_20hz": {
+   "stride": 1,
+   "frame_rate_hz": 20.0,
+   "lever_arm_zero": false,
+   "imu_offset_s": 0.05,
+   "maps_created": 2,
+   "viba2_completed": 1,
+   "trajectory": "D:\\reloc3r\\tumvi_room1\\degradation\\deg_offset0p05_20hz\\f_deg_offset0p05_20hz.txt",
+   "num_est_poses": 2063,
+   "num_matched": 2015,
+   "ate_se3_rmse_m": 92.44771092167754,
+   "ate_sim3_rmse_m": 1.0892344529935545,
+   "rpe_rot_mean_deg": 4.64181601344759,
+   "rpe_trans_mean_m": 2.0662743981491256,
+   "time_span_s": [
+    1520530346.1014786,
+    1520530449.2039113
+   ]
+  },
+  "offset0.50_20hz": {
+   "stride": 1,
+   "frame_rate_hz": 20.0,
+   "lever_arm_zero": false,
+   "imu_offset_s": 0.5,
+   "maps_created": 2,
+   "viba2_completed": 0,
+   "trajectory": "D:\\reloc3r\\tumvi_room1\\degradation\\deg_offset0p50_20hz\\f_deg_offset0p50_20hz.txt",
+   "num_est_poses": 41,
+   "num_matched": 41,
+   "ate_se3_rmse_m": 0.03752371446000993,
+   "ate_sim3_rmse_m": 0.03637581647190144,
+   "rpe_rot_mean_deg": 0.8704627091014268,
+   "rpe_trans_mean_m": 0.03885170593282261,
+   "time_span_s": [
+    1520530447.2043383,
+    1520530449.2039113
+   ]
+  },
+  "lever0_6.7hz": {
+   "stride": 3,
+   "frame_rate_hz": 6.666666666666667,
+   "lever_arm_zero": true,
+   "imu_offset_s": 0.0,
+   "maps_created": 2,
+   "viba2_completed": 1,
+   "trajectory": "D:\\reloc3r\\tumvi_room1\\degradation\\deg_lever0_6p7hz\\f_deg_lever0_6p7hz.txt",
+   "num_est_poses": 902,
+   "num_matched": 885,
+   "ate_se3_rmse_m": 0.2356673899859352,
+   "ate_sim3_rmse_m": 0.22852875264505385,
+   "rpe_rot_mean_deg": 0.4531077579284521,
+   "rpe_trans_mean_m": 0.06586750847790535,
+   "time_span_s": [
+    1520530314.049757,
+    1520530449.2039113
+   ]
+  },
+  "lever0_offset0.02_6.7hz": {
+   "stride": 3,
+   "frame_rate_hz": 6.666666666666667,
+   "lever_arm_zero": true,
+   "imu_offset_s": 0.02,
+   "maps_created": 2,
+   "viba2_completed": 1,
+   "trajectory": "D:\\reloc3r\\tumvi_room1\\degradation\\deg_lever0_offset0p02_6p7hz\\f_deg_lever0_offset0p02_6p7hz.txt",
+   "num_est_poses": 902,
+   "num_matched": 885,
+   "ate_se3_rmse_m": 2.8806179453101253,
+   "ate_sim3_rmse_m": 0.9535150422920643,
+   "rpe_rot_mean_deg": 1.7818976072058021,
+   "rpe_trans_mean_m": 0.37544844150247947,
+   "time_span_s": [
+    1520530314.049757,
+    1520530449.2039113
+   ]
+  }
+ }
+}

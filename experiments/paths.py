@@ -10,6 +10,9 @@ ENDOSIM_ROOT  EndoEgoSim harness (https://github.com/liranyang123456-commits/End
 MITI_ROOT     MITI release (Hartwig et al., 2022): tum/sensordata.zip and tum/mirror_time_alignment.json (this
               repository's experiments/miti/ holds a copy of the alignment file) and hf/sequence_0k/ with the nine
               curated sequences of the public mirror.
+TUMVI_ROOT    TUM-VI calibrated bags (Schubert et al., 2018) and extracted/dataset-room<k>_512/mav0/ with the IMU
+              stream and the motion-capture reference of rooms 2-6 (extract_tumvi_imu_gt.py); room1 and the VIO runs
+              live under IMUCAM_ROOT/tumvi_room1/.
 All default to sibling directories of this repository and can be set as environment variables.
 """
 import os
@@ -21,6 +24,7 @@ REPO = Path(__file__).resolve().parents[1]
 IMUCAM_ROOT = Path(os.environ.get("IMUCAM_ROOT", REPO.parent / "imu_camera"))
 ENDOSIM_ROOT = Path(os.environ.get("ENDOSIM_ROOT", REPO.parent / "EndoEgoSim"))
 MITI_ROOT = Path(os.environ.get("MITI_ROOT", REPO.parent / "MITI"))
+TUMVI_ROOT = Path(os.environ.get("TUMVI_ROOT", REPO.parent / "TUMVI"))
 
 
 def eval_with_scale_correction(est, gt):

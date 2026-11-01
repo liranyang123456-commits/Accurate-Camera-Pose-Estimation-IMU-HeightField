@@ -44,13 +44,15 @@ def main():
     add = load("review_addenda_results.json")
     fixed = load("fixedtest_aligned_results.json")
     miti = load("miti_fusion_results.json")
+    tum = load("tumvi_fusion_results.json")
+    tz, tv = tum["rows"]["zero_motion"], tum["vio"]["orbslam3_vi_20hz"]
     st, holm = hyb["stats"], add["holm_table_session_stats"]
 
-    fig = plt.figure(figsize=(5.6, 9.2))
+    fig = plt.figure(figsize=(5.6, 10.6))
     # left, bottom, width, height in figure fractions: forest axes occupy the left part, annotations run to the right
-    pos_a = [0.34, 0.735, 0.22, 0.215]
-    pos_b = [0.34, 0.445, 0.22, 0.195]
-    pos_c = [0.26, 0.05, 0.70, 0.28]
+    pos_a = [0.34, 0.775, 0.22, 0.185]
+    pos_b = [0.34, 0.525, 0.22, 0.17]
+    pos_c = [0.26, 0.045, 0.70, 0.385]
 
     def forest(ax, keys, labels, unit, title, xmax):
         y = list(range(len(keys)))[::-1]
@@ -110,7 +112,11 @@ def main():
          miti["rows"]["hf_only"]["rot_mean"] / miti["rows"]["zero_motion"]["rot_mean"], "height field alone"),
         ("MITI, translation\n(N=3180, recorded IMU)", miti["rows"]["hf_rig_weights_tlio"]["trans_mean"] / miti["rows"]["zero_motion"]["trans_mean"],
          "gated HF blend (TLIO translation)", miti["rows"]["hf_only"]["trans_mean"] / miti["rows"]["zero_motion"]["trans_mean"], "height field alone"),
-        ("18 real segments, ATE\n(visual only)", real["Ours (height field)"] / real["Static (reference)"], "height field",
+        ("TUM-VI, rotation\n(N=2675, VIO works)", tum["rows"]["vo_20hz_rig_weights"]["rot_mean"] / tz["rot_mean"], "gated ORB-VO blend",
+         tv["on_covered"]["rot_mean"] / tv["zero_on_covered"]["rot_mean"], "ORB-SLAM3 mono-inertial (96% of windows)"),
+        ("TUM-VI, translation\n(N=2675, VIO works)", tum["rows"]["vo_20hz_rig_weights"]["trans_mean"] / tz["trans_mean"], "gated ORB-VO blend (inertial scale)",
+         tv["on_covered"]["trans_mean"] / tv["zero_on_covered"]["trans_mean"], "ORB-SLAM3 mono-inertial (96% of windows)"),
+        ("18 real tabletop segments, ATE\n(visual only)", real["Ours (height field)"] / real["Static (reference)"], "height field",
          best(real)[1] / real["Static (reference)"], best(real)[0]),
         ("71 simulated, ATE\n(visual only)", sim["Ours (height field)"] / sim["Static (reference)"], "height field",
          best(sim)[1] / sim["Static (reference)"], best(sim)[0]),
@@ -124,9 +130,9 @@ def main():
     h = 0.38
     for yi, (lab, ours, ours_name, other, other_name) in zip(y, items):
         ax3.barh(yi + h / 2, ours, height=h, color="#1b7f79", label="proposed estimator" if yi == y[0] else None)
-        ax3.barh(yi - h / 2, other, height=h, color="#4d7fc4", label="best compared method with full coverage" if yi == y[0] else None)
-        ax3.text(ours + 0.015, yi + h / 2, f"{ours:.2f}  {ours_name}", va="center", fontsize=6.3)
-        ax3.text(other + 0.015, yi - h / 2, f"{other:.2f}  {other_name}", va="center", fontsize=6.3)
+        ax3.barh(yi - h / 2, other, height=h, color="#4d7fc4", label="most accurate compared method" if yi == y[0] else None)
+        ax3.text(ours + 0.015, yi + h / 2, f"{ours:.3f}  {ours_name}" if ours < 0.1 else f"{ours:.2f}  {ours_name}", va="center", fontsize=6.3)
+        ax3.text(other + 0.015, yi - h / 2, f"{other:.3f}  {other_name}" if other < 0.1 else f"{other:.2f}  {other_name}", va="center", fontsize=6.3)
     ax3.axvline(1.0, color="k", lw=0.9, ls="--")
     ax3.text(1.0, len(items) - 0.4, "zero motion / static reference = 1", fontsize=6.8, ha="center", va="bottom")
     ax3.set_yticks(y)

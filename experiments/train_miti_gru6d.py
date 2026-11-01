@@ -36,18 +36,22 @@ def build(kind: str):
 
 
 def main():
+    global OUT
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default="gru6d,ronin_lstm,tlio_resnet")
     ap.add_argument("--seeds", default="0,1,2")
     ap.add_argument("--epochs", type=int, default=120)
     ap.add_argument("--threads", type=int, default=8)
     ap.add_argument("--device", default="cpu")
+    ap.add_argument("--windows", default=str(HERE / "miti_windows.npz"), help="window file (tumvi_windows.npz for TUM-VI)")
+    ap.add_argument("--out", default=str(OUT))
     args = ap.parse_args()
+    OUT = Path(args.out)
     torch.set_num_threads(args.threads)
     OUT.mkdir(exist_ok=True)
     tib.build = build
     tib.OUT = OUT
-    z = np.load(HERE / "miti_windows.npz", allow_pickle=True)
+    z = np.load(args.windows, allow_pickle=True)
     X, Y, split, seq = z["X"].astype(np.float32), z["y"].astype(np.float32), z["split"].astype(str), z["test_sequence"].astype(str)
     itr, iva, ite = np.where(split == "train")[0], np.where(split == "val")[0], np.where(split == "test")[0]
     sx = StandardScaler().fit(X[itr].reshape(-1, D))

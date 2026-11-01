@@ -1,0 +1,75 @@
+{
+ "protocol": "Build 0.5 s IMU windows with camera-frame relative-pose labels for the TUM-VI rooms 1-6 (512 px, calibrated release).",
+ "N": 14881,
+ "split_counts": {
+  "train": 9707,
+  "val": 2499,
+  "test": 2675
+ },
+ "rooms": {
+  "room1": {
+   "split": "test",
+   "N": 2675
+  },
+  "room2": {
+   "split": "train",
+   "N": 2435
+  },
+  "room3": {
+   "split": "train",
+   "N": 2385
+  },
+  "room4": {
+   "split": "train",
+   "N": 2110
+  },
+  "room5": {
+   "split": "train",
+   "N": 2777
+  },
+  "room6": {
+   "split": "val",
+   "N": 2499
+  }
+ },
+ "calibration_check": {
+  "original_timestamps": {
+   "delta_s": 0.0,
+   "gyro_err_deg_at_best": 0.39688597272792775,
+   "angle_to_kalibr_R_CI_deg": 0.15584886149582697,
+   "gyro_err_deg_at_zero_kalibr": 0.4012345093484558
+  },
+  "imu_offset_injected_0.50s": {
+   "delta_s": 0.5,
+   "gyro_err_deg_at_best": 0.39688597272792775,
+   "angle_to_kalibr_R_CI_deg": 0.15584886149582697,
+   "gyro_err_deg_at_zero_kalibr": 30.92883107952263
+  }
+ },
+ "gyro_rot_deg_by_split": {
+  "train": 0.4012345093484558,
+  "val": 0.3262384641736016,
+  "test": 0.32999685872468687
+ },
+ "zero_rot_deg_by_split": {
+  "train": 29.845027830486316,
+  "val": 18.484250253967137,
+  "test": 34.35406737520449
+ },
+ "zero_trans_mm_by_split": {
+  "train": 445.0614929199219,
+  "val": 249.8651885986328,
+  "test": 525.5706787109375
+ },
+ "windows_per_second": 20.0,
+ "T": 60,
+ "D": 6,
+ "channels": [
+  "gyro_x_deg_s",
+  "gyro_y",
+  "gyro_z",
+  "acc_x_g",
+  "acc_y",
+  "acc_z"
+ ]
+}
