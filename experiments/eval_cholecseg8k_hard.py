@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-CholecSeg8k-Hard stratification of the q = 0.68 filled scores (Sec. 4.6, with Table 17).
+CholecSeg8k-Hard stratification of the q = 0.68 filled scores (Sec. 4.6 and Fig. 11b).
 
 Reuses already-computed per-frame Dice/IoU/B-F1 summary CSVs
 (contour batch and filled-from-contour). Paths can be set below when re-running.
