@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""R1-3 coverage plot: visual tracking vs IMU windows on vio_seq_20260911_010902.
+"""Coverage plot: visual tracking vs IMU windows on vio_seq_20260911_010902.
 
 This is coverage only. It is not a no-board ATE and not a fused VIO row.
 """
@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 from pathlib import Path
 
 import matplotlib
@@ -16,8 +17,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-SEQ = Path(r"D:\reloc3r\Data_IMU_Camera_Pose_Sequences\stereo_endoscope\vio_seq_20260911_010902")
-EXPORT = Path(r"D:\reloc3r\export_euroc_stereo_endoscope\vio_seq_20260911_010902")
+ROOT = Path(os.environ.get("IMUCAM_ROOT", Path(__file__).resolve().parents[2] / "imu_camera"))
+SEQ = ROOT / "Data_IMU_Camera_Pose_Sequences" / "stereo_endoscope" / "vio_seq_20260911_010902"
+EXPORT = ROOT / "export_euroc_stereo_endoscope" / "vio_seq_20260911_010902"
 OUT = Path(__file__).resolve().parent / "r13_coverage"
 PAPER_IMG = Path(__file__).resolve().parents[1] / "images"
 

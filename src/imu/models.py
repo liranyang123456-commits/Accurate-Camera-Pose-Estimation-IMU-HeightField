@@ -44,111 +44,53 @@ class PoseScalerRT:
 
 
 class _ResidualMLPBlockLN(nn.Module):
-    """Residual block with LayerNorm and GELU activation."""
-    def __init__(self, dim: int, dropout: float = 0.1):
+    """Pre-norm residual MLP block: x + Dropout(Linear(Dropout(GELU(Linear(LayerNorm(x))))))."""
+
+    def __init__(self, dim: int, *, expansion: int = 4, dropout: float = 0.1):
         super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(dim, dim),
-            nn.LayerNorm(dim),
-            nn.GELU(),
-            nn.Dropout(dropout),
-            nn.Linear(dim, dim),
-            nn.LayerNorm(dim),
-        )
+        h = max(1, int(dim) * int(expansion))
+        self.norm = nn.LayerNorm(dim)
+        self.fc1 = nn.Linear(dim, h)
         self.act = nn.GELU()
+        self.drop1 = nn.Dropout(dropout)
+        self.fc2 = nn.Linear(h, dim)
+        self.drop2 = nn.Dropout(dropout)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.act(x + self.net(x))
+        return x + self.drop2(self.fc2(self.drop1(self.act(self.fc1(self.norm(x))))))
 
 
 class IMUCameraPoseGRU6D(nn.Module):
+    """IMU-to-camera relative-pose regressor of the paper (Fig. 3); same layers and names as experiments/imu_camera_mlp.py,
+    so the checkpoints of the evaluated runs load directly.
+
+    Linear(input_dim -> embed_dim) + LayerNorm, a GRU (gru_num_layers x gru_hidden_dim) whose last hidden state feeds a
+    shared LayerNorm-Linear-GELU layer (head_dim), then two residual MLP blocks per head before a 6D rotation output
+    (Gram-Schmidt to SO(3)) and a 3D translation output. Defaults are the evaluated configuration (11.44 M parameters).
+    forward() returns the 12-D pose [R row-major (9), t (3)].
     """
-    Proposed IMU-to-Camera relative-pose regressor (Fig. 3 in manuscript).
-    
-    Architecture:
-      - Bidirectional or Unidirectional GRU temporal encoder
-      - Shared bottleneck with LayerNorm
-      - Decoupled rotation head (predicting 6D continuous representation -> SO(3))
-      - Decoupled translation head (predicting 3D displacement vector)
-    """
-    def __init__(
-        self,
-        input_dim: int = 21,
-        hidden_dim: int = 256,
-        num_layers: int = 2,
-        dropout: float = 0.1,
-        bidirectional: bool = False,
-    ):
+
+    def __init__(self, *, input_dim: int = 21, embed_dim: int = 256, gru_hidden_dim: int = 512, gru_num_layers: int = 2,
+                 head_dim: int = 512, head_blocks: int = 2, dropout: float = 0.25):
         super().__init__()
-        self.input_dim = input_dim
-        self.hidden_dim = hidden_dim
-        self.num_layers = num_layers
-        self.bidirectional = bidirectional
+        self.input_dim = int(input_dim)
+        self.embed = nn.Linear(input_dim, embed_dim)
+        self.embed_norm = nn.LayerNorm(embed_dim)
+        self.gru = nn.GRU(input_size=embed_dim, hidden_size=gru_hidden_dim, num_layers=gru_num_layers, batch_first=True,
+                          dropout=dropout if gru_num_layers > 1 else 0.0)
+        self.shared = nn.Sequential(nn.LayerNorm(gru_hidden_dim), nn.Linear(gru_hidden_dim, head_dim), nn.GELU(), nn.Dropout(dropout))
+        self.rot_blocks = nn.Sequential(*[_ResidualMLPBlockLN(head_dim, expansion=4, dropout=dropout) for _ in range(head_blocks)])
+        self.trans_blocks = nn.Sequential(*[_ResidualMLPBlockLN(head_dim, expansion=4, dropout=dropout) for _ in range(head_blocks)])
+        self.rot_head = nn.Linear(head_dim, 6)
+        self.trans_head = nn.Linear(head_dim, 3)
 
-        self.input_proj = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            nn.LayerNorm(hidden_dim),
-            nn.GELU(),
-            nn.Dropout(dropout),
-        )
-
-        self.gru = nn.GRU(
-            input_size=hidden_dim,
-            hidden_size=hidden_dim,
-            num_layers=num_layers,
-            batch_first=True,
-            dropout=dropout if num_layers > 1 else 0.0,
-            bidirectional=bidirectional,
-        )
-
-        enc_dim = hidden_dim * 2 if bidirectional else hidden_dim
-
-        self.bottleneck = nn.Sequential(
-            nn.Linear(enc_dim, hidden_dim),
-            nn.LayerNorm(hidden_dim),
-            nn.GELU(),
-            nn.Dropout(dropout),
-        )
-
-        # Decoupled Rotation Head: outputs 6D continuous representation
-        self.rot_head = nn.Sequential(
-            _ResidualMLPBlockLN(hidden_dim, dropout=dropout),
-            nn.Linear(hidden_dim, 6),
-        )
-
-        # Decoupled Translation Head: outputs 3D translation
-        self.trans_head = nn.Sequential(
-            _ResidualMLPBlockLN(hidden_dim, dropout=dropout),
-            nn.Linear(hidden_dim, 3),
-        )
-
-    def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """
-        Args:
-            x: IMU sequence tensor of shape (B, T, input_dim)
-
-        Returns:
-            R_mat: 3x3 SO(3) rotation matrices (B, 3, 3)
-            trans: 3D translation vectors (B, 3)
-            r6: Raw 6D rotation codes (B, 6)
-        """
-        B, T, D = x.shape
-        proj = self.input_proj(x)
-        out, h_n = self.gru(proj)
-
-        if self.bidirectional:
-            h_fwd = h_n[-2]
-            h_bwd = h_n[-1]
-            h_last = torch.cat([h_fwd, h_bwd], dim=-1)
-        else:
-            h_last = h_n[-1]
-
-        z = self.bottleneck(h_last)
-        r6 = self.rot_head(z)
-        trans = self.trans_head(z)
-        R_mat = rot6d_to_rotmat_torch(r6)
-
-        return R_mat, trans, r6
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """x: (B, T, input_dim) -> (B, 12) = [R row-major, t]."""
+        _, h_n = self.gru(self.embed_norm(self.embed(x)))
+        feat = self.shared(h_n[-1])
+        R_mat = rot6d_to_rotmat_torch(self.rot_head(self.rot_blocks(feat)))
+        t = self.trans_head(self.trans_blocks(feat))
+        return torch.cat([R_mat.reshape(-1, 9), t], dim=1)
 
 
 class IMUCameraPoseMLP6D(nn.Module):

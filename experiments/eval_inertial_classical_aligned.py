@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Classical inertial baselines of Table 5 with the corrected label convention and the camera-IMU time offset.
+"""Classical inertial baselines of Table 4 with the corrected label convention and the camera-IMU time offset.
 
 Rotation: gyroscope integration and onboard-quaternion increments, R_CI B^T R_CI^T, with delta and R_CI from
 eval_gyro_time_alignment.py (49 training and validation sessions). Translation: zero, or accelerometer double

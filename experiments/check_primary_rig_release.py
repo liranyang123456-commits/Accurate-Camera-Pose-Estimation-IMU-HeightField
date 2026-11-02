@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Reproduce the inertial rows of Table 5 (11 held-out sessions) from the released primary-rig windows.
+"""Reproduce the inertial rows of Table 4 (11 held-out sessions) from the released primary-rig windows.
 
 experiments/primary_rig/primary_rig_aligned_windows.npz holds, for the 11975 windows of the 60 sessions, the time-aligned
 IMU input X (60 x 21), the checkerboard-PnP labels y (row-major R_{Ce<-Cs} and the start-camera position in the end-camera

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-CholecSeg8k-Hard stratification for Table 8 (R1-5).
+CholecSeg8k-Hard stratification of the q = 0.68 filled scores (Sec. 4.6, with Table 17).
 
 Reuses already-computed per-frame Dice/IoU/B-F1 summary CSVs
 (contour batch and filled-from-contour). Paths can be set below when re-running.
@@ -16,17 +16,17 @@ Quantile cutoffs are computed on the 8080-frame cue distributions, not on metric
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import cv2
 import numpy as np
 import pandas as pd
 
-ARCHIVE = Path(r"D:\360极速浏览器X下载\archive")
-BATCH_SUMMARY = Path(r"D:\reloc3r\eval_contour_CC_outputs_batch\archive_soft_tissue\summary.csv")
-FILLED_SUMMARY = Path(
-    r"D:\reloc3r\eval_contour_CC_outputs_filled_from_contour\archive_soft_tissue\summary.csv"
-)
+ROOT = Path(os.environ.get("IMUCAM_ROOT", Path(__file__).resolve().parents[2] / "imu_camera"))
+ARCHIVE = Path(os.environ.get("CHOLECSEG8K_ROOT", ROOT / "CholecSeg8k" / "archive"))
+BATCH_SUMMARY = ROOT / "eval_contour_CC_outputs_batch" / "archive_soft_tissue" / "summary.csv"
+FILLED_SUMMARY = ROOT / "eval_contour_CC_outputs_filled_from_contour" / "archive_soft_tissue" / "summary.csv"
 OUT_DIR = Path(__file__).resolve().parent / "cholecseg8k_hard"
 
 WATERSHED_BLOOD_GRAY = 24  # class 7 Blood #242424

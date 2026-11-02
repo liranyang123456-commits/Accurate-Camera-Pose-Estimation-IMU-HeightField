@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Generate the updated Figure 10 (Fig_contour_metrics_panel.pdf / .png):
+Generate Figure 11 (Fig_contour_metrics_panel.pdf / .png):
 Quantitative contour and structural support performance across CholecSeg8k (N=8080),
 CholecSeg8k-Hard stratified subsets, BSDS500 (N=500), and BIPEDv2 (N=250).
 """

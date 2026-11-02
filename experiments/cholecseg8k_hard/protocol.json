@@ -1,6 +1,6 @@
 {
   "n_frames": 8080,
-  "archive": "D:\\360极速浏览器X下载\\archive",
+  "archive": "CHOLECSEG8K_ROOT (archive/ of the CholecSeg8k release)",
   "blood_rule": "blood_frac >= 0.005 (watershed class 7 gray=24)",
   "specular_rule": "specular_frac >= P90 (V>=235/255 and S<=51/255); cutoff=0.0264422",
   "blur_rule": "lap_var <= P10; cutoff=129.92",

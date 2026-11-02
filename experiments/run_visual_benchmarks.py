@@ -1,6 +1,6 @@
 """
 Benchmark evaluation script for Visual Branch:
-Reproduces Table 5 from the manuscript (Camera pose error across checkerboard benchmark sequences).
+Reproduces Table 12 from the manuscript (Camera pose error across checkerboard benchmark sequences).
 """
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ def evaluate_visual_benchmarks(csv_path: Path):
         sys.exit(1)
 
     print(f"\n==========================================================================================")
-    print(f"  Visual Pipeline Benchmark Evaluation (Manuscript Table 5)")
+    print(f"  Visual Pipeline Benchmark Evaluation (Manuscript Table 12)")
     print(f"  Source: {csv_path.name}")
     print(f"==========================================================================================")
 
@@ -67,7 +67,7 @@ def evaluate_visual_benchmarks(csv_path: Path):
         ))
 
     print("-" * 125)
-    print("Table 5 printed from the bundled benchmark CSV.")
+    print("Table 12 printed from the bundled benchmark CSV.")
 
 
 if __name__ == "__main__":

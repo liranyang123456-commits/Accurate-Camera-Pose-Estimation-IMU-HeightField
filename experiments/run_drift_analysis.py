@@ -1,6 +1,6 @@
 """
 Benchmark ablation script for Pose-Graph Optimization:
-Reproduces Table 7 from the manuscript (Drift comparison with vs. without pose-graph refinement).
+Reproduces Table 18 from the manuscript (Drift comparison with vs. without pose-graph refinement).
 """
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ def evaluate_drift_analysis(csv_path: Path):
         sys.exit(1)
 
     print(f"\n==========================================================================================")
-    print(f"  Pose-Graph Optimization Drift Analysis (Manuscript Table 7)")
+    print(f"  Pose-Graph Optimization Drift Analysis (Manuscript Table 18)")
     print(f"  Source: {csv_path.name}")
     print(f"==========================================================================================")
 
@@ -78,7 +78,7 @@ def evaluate_drift_analysis(csv_path: Path):
         "-"
     ))
     print("-" * 125)
-    print("Table 7 printed from the bundled benchmark CSV.")
+    print("Table 18 printed from the bundled benchmark CSV.")
 
 
 if __name__ == "__main__":

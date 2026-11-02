@@ -1,5 +1,5 @@
 """
-Inertial branch and VIO baselines: prints Tables 3, 5, 6, 7, and 16
+Inertial branch and VIO baselines: prints Tables 3, 4, 8, 9, and 19
 from the bundled evaluation JSON and CSV logs.
 """
 
@@ -42,7 +42,7 @@ def evaluate_table1(val_json: Path, test_json: Path):
 
 def evaluate_table2(res_dir: Path):
     print("\n" + "=" * 105)
-    print("  [Table 5] Relative Pose (0.5 s windows) on the 11 Held-Out Sessions")
+    print("  [Table 4] Relative Pose (0.5 s windows) on the 11 Held-Out Sessions")
     print("=" * 105)
     header_fmt = "  {:<26} | {:<22} | {:<24} | {:<16} | {:<6}"
     print(header_fmt.format("Method", "rot(mean/p50/p95) [deg]", "trans(mean/p50/p95) [mm]", "Hit@rot<=5/t<=20", "N"))
@@ -121,7 +121,7 @@ def evaluate_table3_and_4(json_mono: Path, json_subset: Path):
         hit_r5 = data_mono.get("hit_rate", {}).get("rot_deg<=5", 0.9618) * 100.0
         hit_t20 = data_mono.get("hit_rate", {}).get("trans<=20", 0.9785) * 100.0
 
-        print(f"\n[Table 6] Official ORB-SLAM3 Monocular on Tracked Test Windows (N = {n}):")
+        print(f"\n[Table 8] Official ORB-SLAM3 Monocular on Tracked Test Windows (N = {n}):")
         print(f"  - Rotation Geodesic Error Mean: {rot_mean:.3f} deg (Median: {rot_med:.3f} deg)")
         print(f"  - Translation Error Mean:       {trans_mean:.3f} mm (Median: {trans_med:.3f} mm)")
         print(f"  - Rot <= 5 deg Success Rate:    {hit_r5:.1f}%")
@@ -131,7 +131,7 @@ def evaluate_table3_and_4(json_mono: Path, json_subset: Path):
         with open(json_subset, "r", encoding="utf-8") as f:
             data_sub = json.load(f)
 
-        print(f"\n[Table 7] Comparison on Identical Tracked Subset (Four Shared Sessions):")
+        print(f"\n[Table 9] Comparison on Identical Tracked Subset (Four Shared Sessions):")
         headers = ["Method", "N", "Rot Mean (deg)", "Rot Med (deg)", "Trans Mean (mm)", "Trans Med (mm)"]
         header_fmt = "{:<24} | {:<8} | {:<16} | {:<14} | {:<16} | {:<14}"
         print(header_fmt.format(*headers))
@@ -157,7 +157,7 @@ def evaluate_table3_and_4(json_mono: Path, json_subset: Path):
 
 def evaluate_table8(csv_batch: Path, csv_fill: Path):
     print("\n" + "=" * 105)
-    print("  [Table 16] Sensitivity of Gradient Quantile q on CholecSeg8k Soft-Tissue Masks (N = 8,080 frames)")
+    print("  [Table 19] Sensitivity of Gradient Quantile q on CholecSeg8k Soft-Tissue Masks (N = 8,080 frames)")
     print("=" * 105)
     header_fmt = "  {:<24} | {:<18} | {:<18} | {:<18}"
     print(header_fmt.format("Setting", "Soft-tissue Dice", "Soft-tissue IoU", "Soft-tissue B-F1"))
@@ -193,7 +193,7 @@ def evaluate_table8(csv_batch: Path, csv_fill: Path):
 
 def evaluate_imu_benchmarks(res_dir: Path):
     """Monocular ORB-SLAM3 coverage and the quantile sensitivity; the time-aligned inertial and fused results
-    (Tables 3-7 and 15) are printed by experiments/print_aligned_numbers.py."""
+    (Tables 3-7, 10, 11, and 22) are printed by experiments/print_aligned_numbers.py."""
     evaluate_table3_and_4(res_dir / "vio_orbslam3_mono_fixedtest_metrics.json", res_dir / "vio_orbslam3_vs_classical_subset.json")
     evaluate_table8(res_dir / "cholecseg8k_contour_scores.csv", res_dir / "cholecseg8k_fill_scores.csv")
 

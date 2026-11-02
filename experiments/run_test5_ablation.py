@@ -33,13 +33,13 @@ CSV_OUT = r"D:\reloc3r\ablation_test5_metrics.csv"
 
 
 def evaluate_test5_ablation(csv_path: Path) -> None:
-    """Print Manuscript Table 9 from the verified four-variant ablation CSV."""
+    """Print Manuscript Table 20 from the verified four-variant ablation CSV."""
     if not csv_path.exists():
         print(f"Error: {csv_path} not found.")
         sys.exit(1)
 
     print("\n" + "=" * 105)
-    print("  [Table 9] Controlled leave-one-out ablation on test5 (pairwise registration diagnostics)")
+    print("  [Table 20] Controlled leave-one-out ablation on test5 (pairwise registration diagnostics)")
     print("=" * 105)
     print("  Note: fitness/RMSE are pseudo-3D pairwise registration diagnostics, not SE(3) physical pose error.")
     header_fmt = "  {:<22} | {:<12} | {:<12} | {:<18} | {:<16}"
@@ -55,7 +55,7 @@ def evaluate_test5_ablation(csv_path: Path) -> None:
                 r["rmse_gt_5_frames"],
             ))
     print("  " + "-" * 96)
-    print("  Table 9 loaded from the bundled ablation CSV.")
+    print("  Table 20 loaded from the bundled ablation CSV.")
 
 
 def log(msg: str) -> None:
