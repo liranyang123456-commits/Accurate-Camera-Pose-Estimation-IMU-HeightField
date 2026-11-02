@@ -1,0 +1,47 @@
+{
+ "windows": 11975,
+ "sessions": 60,
+ "split_counts": {
+  "train": 5903,
+  "val": 3760,
+  "test": 2312
+ },
+ "check_against_paper": {
+  "gyro_test_mean_deg": 1.0800923613232276,
+  "quat_test_mean_deg": 1.1760049689137386,
+  "zero_translation_test_mm": 10.330262184143066
+ },
+ "channels": [
+  "acc_x",
+  "acc_y",
+  "acc_z",
+  "gyro_x",
+  "gyro_y",
+  "gyro_z",
+  "sin_angle_x",
+  "cos_angle_x",
+  "sin_angle_y",
+  "cos_angle_y",
+  "sin_angle_z",
+  "cos_angle_z",
+  "mag_x",
+  "mag_y",
+  "mag_z",
+  "pressure",
+  "altitude",
+  "quat_w",
+  "quat_x",
+  "quat_y",
+  "quat_z"
+ ],
+ "units": {
+  "acc": "g",
+  "gyro": "deg/s",
+  "angle (before sin/cos)": "deg",
+  "mag": "raw magnetometer counts",
+  "pressure": "as recorded by the IMU",
+  "altitude": "m",
+  "quat": "onboard orientation, w x y z",
+  "y translation": "mm"
+ }
+}

@@ -53,6 +53,7 @@ python reproduce_all.py
 `reproduce_all.py` prints the manuscript tables from the bundled logs. The scripts that regenerate the logs need the raw recordings, the evaluated GRU6D run, or the EndoEgoSim harness; set `IMUCAM_ROOT` and `ENDOSIM_ROOT` as described in `experiments/paths.py`:
 
 ```bash
+python experiments/check_primary_rig_release.py       # Table 5 inertial rows from the released primary-rig windows (no raw recordings needed)
 python experiments/eval_gyro_time_alignment.py        # camera-IMU latency and R_CI from the 49 training/validation sessions
 python experiments/build_aligned_windows.py --delta -0.50   # IMU windows shifted by the latency
 python experiments/eval_inertial_classical_aligned.py # gyroscope, quaternion, and accelerometer baselines
@@ -89,7 +90,7 @@ python experiments/time_hf_variants.py                # multi-threaded latency
 
 ## Data
 
-`data/benchmark_datasets_and_trajectories.zip` (reference poses and compared-method trajectories of the real segments and simulated sequences, compared-method trajectories and sampled frame indices of the C3VD sequences, height-field trajectories of every sequence and of the 11 sessions, and evaluation logs; no images) is described in `data/README.md`. The EndoEgoSim simulator and test list are at <https://github.com/liranyang123456-commits/EndoEgoSim>. Public datasets (CholecSeg8k, BSDS500, BIPEDv2, COCO 2017, C3VD, MITI, TUM-VI) remain at their official sources.
+`data/benchmark_datasets_and_trajectories.zip` (reference poses and compared-method trajectories of the real segments and simulated sequences, compared-method trajectories and sampled frame indices of the C3VD sequences, height-field trajectories of every sequence and of the 11 sessions, and evaluation logs; no images) is described in `data/README.md`. `experiments/primary_rig/primary_rig_aligned_windows.npz` releases the 11975 time-aligned 0.5 s IMU windows (21 channels) of the 60 primary-rig sessions with their checkerboard-PnP labels, the train/validation/test split of the evaluated GRU6D run, and the camera-frame gyroscope and onboard-quaternion rotations of every window (no images); `python experiments/check_primary_rig_release.py` reproduces the zero-motion, gyroscope, and quaternion rows of Table 5 from it. The EndoEgoSim simulator and test list are at <https://github.com/liranyang123456-commits/EndoEgoSim>. Public datasets (CholecSeg8k, BSDS500, BIPEDv2, COCO 2017, C3VD, MITI, TUM-VI) remain at their official sources.
 
 ## Citation
 
